@@ -46,6 +46,7 @@ arriving; ease-in-out on an entrance reads as hesitant.
 | Hero name | Character reveal from a mask | The page's opening statement. The only character-level animation on the site. |
 | Hero role | Letter-staggered word rotation | Says several things in one line without a list. |
 | Hero block | Parallax drift on scroll | Depth. Content leaves faster than its background. |
+| Gold filaments | Endless `pathOffset` flow behind six sections | Atmosphere. The only motion on the site with no informational job — it exists to stop large dark fields reading as empty. Kept far enough down that you notice it only if you look. See [16 · Gold filaments](./16-floating-paths.md). |
 | Sections | Fade + 24px rise, staggered | Controls reading order. |
 | Section headings | Masked word rise | Marks the start of a movement. |
 | Ticker | Continuous horizontal scroll | Breaks the vertical rhythm between hero and body. |
@@ -96,6 +97,10 @@ the wrong result:
 - `Hero` disables scroll parallax.
 - `Magnetic` stops pulling.
 - `Cursor` does not mount at all.
+- `FloatingPaths` renders **still and fully drawn** rather than disappearing.
+  The texture is part of the design; only the flow is decorative. Removing the
+  strokes entirely would give reduced-motion users a visibly different site,
+  which is not what the preference asks for.
 
 ## The performance rule underneath all of it
 
