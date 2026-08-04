@@ -22,7 +22,9 @@ import { TextReveal } from "@/components/primitives/text-reveal";
  */
 export function About() {
   return (
-    <Section id="about">
+    {/* Flow mirrors the hero (which runs at -1), so the eye is carried back
+        across the page rather than dragged the same way twice. */}
+    <Section id="about" paths={{ position: 1, intensity: "subtle", count: 26 }}>
       <Shell>
         <SectionHeading
           eyebrow={site.about.eyebrow}
