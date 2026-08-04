@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -21,11 +21,11 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
-    "eslint": "^9.39.5",
-    "eslint-config-next": "^16.3.0",
     "@types/node": "^22.18.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.0",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2"
   }
