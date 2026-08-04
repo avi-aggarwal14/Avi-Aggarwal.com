@@ -11,7 +11,7 @@ import { Section, Shell } from "@/components/primitives/shell";
  * Timeline with a scroll-drawn spine.
  *
  * A vertical rule runs the height of the list and fills from the top as you
- * scroll through the section â€” so the line is literally drawn by the act of
+ * scroll through the section — so the line is literally drawn by the act of
  * reading. It is `scaleY` on a transform-origin-top element, which stays on the
  * compositor; animating `height` here would force layout on every frame.
  *

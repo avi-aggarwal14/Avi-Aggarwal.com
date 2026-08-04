@@ -6,7 +6,7 @@ import { SectionPaths } from "@/components/ui/floating-paths";
  * 404.
  *
  * Wears the same clothes as the rest of the site rather than falling back to
- * the framework default â€” a stock 404 on an otherwise considered site is a
+ * the framework default — a stock 404 on an otherwise considered site is a
  * seam the visitor can see straight through.
  *
  * A server component: there is nothing here that needs to move.
@@ -14,7 +14,7 @@ import { SectionPaths } from "@/components/ui/floating-paths";
 export default function NotFound() {
   return (
     <main className="relative flex min-h-[100svh] items-center overflow-hidden">
-      {/* The 404 gets the filaments too â€” a dead end should still look like
+      {/* The 404 gets the filaments too — a dead end should still look like
           part of the same site, not a fallback someone forgot to style. */}
       <SectionPaths position={-1} intensity="present" count={28} speed={32} />
 

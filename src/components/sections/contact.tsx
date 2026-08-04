@@ -12,7 +12,7 @@ import { TextReveal } from "@/components/primitives/text-reveal";
  *
  * Deliberately the loudest block on the page: the email address is set at
  * display size and *is* the button. A portfolio's last screen has exactly one
- * job, and a contact form would only add friction to it â€” nobody wants to fill
+ * job, and a contact form would only add friction to it — nobody wants to fill
  * in three fields to say hello, and a `mailto:` cannot silently fail the way an
  * unmonitored form endpoint can.
  *
@@ -34,7 +34,7 @@ export function Contact() {
 
   return (
     // The closing statement, so it gets the fullest treatment after the hero
-    // â€” the most strokes and the slowest pass on the page.
+    // — the most strokes and the slowest pass on the page.
     <Section
       id="contact"
       className="pb-32 md:pb-44"
@@ -99,7 +99,7 @@ export function Contact() {
               )}
             </button>
 
-            {/* Status for assistive tech â€” the icon swap alone is not enough. */}
+            {/* Status for assistive tech — the icon swap alone is not enough. */}
             <span role="status" aria-live="polite" className="sr-only">
               {copied ? "Email address copied to clipboard" : ""}
             </span>

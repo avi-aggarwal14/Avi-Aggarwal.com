@@ -115,7 +115,7 @@ export function Nav() {
               area the 44px minimum height a thumb needs. */}
           <a
             href="#top"
-            aria-label={`${site.name} â€” back to top`}
+            aria-label={`${site.name} — back to top`}
             className="group -mx-2 flex min-h-[44px] cursor-pointer items-center gap-2.5 px-2"
           >
             <span
@@ -173,7 +173,7 @@ export function Nav() {
               Get in touch
             </a>
 
-            {/* Mobile trigger â€” icon-only, so it needs a label. */}
+            {/* Mobile trigger — icon-only, so it needs a label. */}
             <button
               type="button"
               onClick={() => setMenuOpen(true)}

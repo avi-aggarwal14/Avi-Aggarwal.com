@@ -19,7 +19,7 @@ import { Section, Shell } from "@/components/primitives/shell";
 
 /**
  * Icon map. Content names an icon by string key so `site.ts` never has to
- * import a React component â€” keeping the content file editable by someone who
+ * import a React component — keeping the content file editable by someone who
  * has no interest in the component tree.
  *
  * All six come from one set (lucide), one size, one stroke weight. Mixing icon
@@ -63,7 +63,7 @@ export function Capabilities() {
             stack up to 3px of line between neighbours, which reads as heavy
             next to the 1px rules used everywhere else on the page. */}
         <div className="border-bone/10 bg-bone/10 grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-3">
-          {/* Composite key â€” capability titles are not guaranteed unique. */}
+          {/* Composite key — capability titles are not guaranteed unique. */}
           {site.capabilities.items.map((item, index) => (
             <Reveal key={`${item.title}-${index}`} delay={index * 0.05} y={22}>
               <CapabilityCard item={item} index={index} />
@@ -90,7 +90,7 @@ function CapabilityCard({
     const node = ref.current;
     if (!node) return;
     const rect = node.getBoundingClientRect();
-    // Straight to the DOM â€” no state, no re-render.
+    // Straight to the DOM — no state, no re-render.
     node.style.setProperty("--mx", `${event.clientX - rect.left}px`);
     node.style.setProperty("--my", `${event.clientY - rect.top}px`);
   }
