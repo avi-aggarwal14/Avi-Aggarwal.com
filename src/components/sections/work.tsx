@@ -167,9 +167,9 @@ export function Work() {
                     </p>
 
                     <ul className="mt-4 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
+                      {project.tags.map((tag, tagIndex) => (
                         <li
-                          key={tag}
+                          key={`${tag}-${tagIndex}`}
                           className="border-bone/12 text-bone-muted rounded-full border px-3 py-1 font-mono text-[10px] tracking-[0.14em] uppercase"
                         >
                           {tag}
