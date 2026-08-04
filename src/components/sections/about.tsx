@@ -56,9 +56,11 @@ export function About() {
                 transition={{ staggerChildren: 0.08, delayChildren: 0.2 }}
                 className="border-bone/10 mt-14 grid grid-cols-3 gap-6 border-t pt-8"
               >
-                {site.about.stats.map((stat) => (
+                {/* Index is part of the key: placeholder labels repeat, and
+                    real ones legitimately can too. */}
+                {site.about.stats.map((stat, i) => (
                   <motion.div
-                    key={stat.label}
+                    key={`${stat.label}-${i}`}
                     variants={{
                       hidden: { opacity: 0, y: 18 },
                       visible: {
