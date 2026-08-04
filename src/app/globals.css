@@ -206,6 +206,25 @@ body {
   font-size: clamp(2rem, 5vw, 3.75rem);
 }
 
+/* The rotating role line in the hero.
+   Fluid rather than a fixed md: step, because the words come from the content
+   file and are not known in advance. The rotator sets `whitespace-nowrap` (it
+   has to — a word that re-wraps mid-rotation looks broken), so a fixed size
+   would let a long role run off the right edge on a narrow screen. Sizing it
+   against the viewport means any reasonable entry fits. */
+.text-rotator {
+  font-size: clamp(1.65rem, 7vw, 3rem);
+}
+
+/* Headings balance across lines instead of leaving one orphaned word.
+   Cheap, supported everywhere current, and one of the highest-yield
+   typographic details available on a page built out of large headlines. */
+.text-display-xl,
+.text-display-lg,
+.text-display-md {
+  text-wrap: balance;
+}
+
 /* Small-caps eyebrow used above every section heading. */
 .eyebrow {
   font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;

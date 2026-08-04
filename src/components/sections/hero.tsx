@@ -87,7 +87,7 @@ export function Hero() {
             </span>
             <WordRotator
               words={site.hero.roles}
-              className="font-display text-accent text-3xl md:text-5xl"
+              className="font-display text-accent text-rotator"
               interval={2600}
             />
           </motion.div>
