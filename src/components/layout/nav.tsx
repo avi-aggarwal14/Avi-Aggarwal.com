@@ -88,9 +88,12 @@ export function Nav() {
           )}
         >
           {/* Word mark */}
+          {/* -mx-2 px-2 keeps the mark visually flush while giving the hit
+              area the 44px minimum height a thumb needs. */}
           <a
             href="#top"
-            className="group flex cursor-pointer items-center gap-2.5"
+            aria-label={`${site.name} — back to top`}
+            className="group -mx-2 flex min-h-[44px] cursor-pointer items-center gap-2.5 px-2"
           >
             <span
               aria-hidden
