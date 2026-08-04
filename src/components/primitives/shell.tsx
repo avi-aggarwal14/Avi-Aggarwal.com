@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { SectionPaths, type PathIntensity } from "@/components/ui/floating-paths";
 
 /**
  * The one container width used everywhere on the site.
@@ -32,6 +33,15 @@ export function Shell({
   );
 }
 
+export type SectionPathConfig = {
+  /** Flow direction. Alternate the sign between sections so the eye is led
+   *  across the page rather than dragged the same way six times. */
+  position: number;
+  intensity?: PathIntensity;
+  count?: number;
+  speed?: number;
+};
+
 /**
  * Vertical rhythm between sections. One scale, applied consistently, so the
  * page breathes at the same rate from top to bottom.
@@ -40,18 +50,28 @@ export function Shell({
  * screen reader's landmark list read "Selected work, region" rather than six
  * identical unnamed regions. The heading ids are derived from the section id,
  * so they stay in sync automatically.
+ *
+ * Passing `paths` lays the gold filament backdrop behind the section. It is
+ * handled here rather than in each section for two reasons: every section then
+ * gets identical stacking behaviour, and the content wrapper below is
+ * mandatory — an absolutely-positioned sibling paints *above* in-flow content
+ * regardless of source order, so without `relative z-10` on the children the
+ * strokes would be drawn over the type instead of behind it.
  */
 export function Section({
   children,
   id,
   className,
   labelledBy,
+  paths,
 }: {
   children: ReactNode;
   id?: string;
   className?: string;
   /** Id of the heading that names this section. Defaults to `${id}-heading`. */
   labelledBy?: string;
+  /** Gold filament backdrop. Omit for no paths. */
+  paths?: SectionPathConfig;
 }) {
   return (
     <section
@@ -59,7 +79,17 @@ export function Section({
       aria-labelledby={labelledBy ?? (id ? `${id}-heading` : undefined)}
       className={cn("relative scroll-mt-24 py-24 md:py-36", className)}
     >
-      {children}
+      {paths ? (
+        <SectionPaths
+          position={paths.position}
+          intensity={paths.intensity}
+          count={paths.count}
+          speed={paths.speed}
+        />
+      ) : null}
+
+      {/* --z-local. Lifts content clear of the absolutely-positioned backdrop. */}
+      <div className="relative z-10">{children}</div>
     </section>
   );
 }
