@@ -82,7 +82,12 @@ export function Work() {
   }
 
   return (
-    <Section id="work">
+    {/* Whisper, and fewer strokes: this section already carries the cursor
+        preview, four hover beds and the densest type on the page. */}
+    <Section
+      id="work"
+      paths={{ position: -1, intensity: "whisper", count: 20, speed: 34 }}
+    >
       <Shell wide>
         <SectionHeading
           eyebrow={site.work.eyebrow}
