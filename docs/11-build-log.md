@@ -284,6 +284,54 @@ moved barely at all. Wider strokes read as ribbons; the brief was thin. Two new
 instances were added, on the ticker band and the footer, taking the treatment to
 every band of the page.
 
+## 16 · The actual "glitching" — a flash of invisible content
+
+Two more reports of glitching after the fixes above, with a second recording.
+The first frame of that video showed the hero completely empty: nav, gold
+waves, and no words at all. Everything appeared a beat later.
+
+The cause was structural, not a tuning problem. **framer-motion writes its
+`initial` state into the server-rendered HTML as an inline `opacity:0`.** A
+request to the deployed site returned **76 elements carrying `opacity:0`**, the
+bulk of them the hero. So the first paint of the site was a background with no
+content on it, and it stayed that way until:
+
+1. the JS bundle downloaded, then
+2. React hydrated, then
+3. a deliberately staggered 2.1-second entrance timeline ran.
+
+On a cold load that is well over a second of blank page. It is the classic
+flash-of-invisible-content, and no amount of adjusting delays fixes it, because
+nothing can animate before the JavaScript that owns the animation arrives.
+
+### The fix
+
+Above-the-fold content no longer depends on JavaScript to be visible. The hero
+entrance moved to CSS keyframes (`hero-entrance.tsx` + `@keyframes hero-rise` /
+`hero-char`), which run at first paint. The rotator got
+`<AnimatePresence initial={false}>` so its first word is present in the HTML
+rather than animating in from hidden. The timeline was compressed from 2.1s to
+0.66s.
+
+framer-motion still drives the hero parallax — that only matters once you are
+scrolling, by which point hydration has long since happened. Below-the-fold
+reveals still use it too, and should: nobody is looking at them pre-hydration.
+
+### Verified, finally with eyes
+
+Diagnosing this took far too long because I had no way to see the site — the
+Browser pane never composited a frame all session. Installing `puppeteer-core`
+against the system Chrome fixed that and should have happened at the start.
+Measured against the live deployment:
+
+| Check | Result |
+| --- | --- |
+| `opacity:0` nodes in the hero (SSR) | 76 → **0** |
+| Hero readable with **JavaScript disabled** | Yes — all 12 glyphs, intro, CTAs |
+| Hero readable on slow 3G + 6× CPU throttle, 900ms in | Yes |
+| Rotator blank frames over 12s | 0, min opacity 0.84 |
+| Console errors | None |
+
 ## What is still not done
 
 - No automated accessibility audit (axe) and no Lighthouse run.
