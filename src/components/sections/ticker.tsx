@@ -1,6 +1,7 @@
 "use client";
 
 import { Marquee } from "@/components/primitives/marquee";
+import { SectionPaths } from "@/components/ui/floating-paths";
 import { site } from "@/content/site";
 
 /**
@@ -22,8 +23,14 @@ import { site } from "@/content/site";
  */
 export function Ticker() {
   return (
-    <div className="border-bone/10 relative border-y py-6">
-      <Marquee items={site.hero.ticker} duration={46} />
+    <div className="border-bone/10 relative overflow-hidden border-y py-6">
+      {/* Few strokes, because the band is only ~90px tall — a high count here
+          would compress into a solid gold haze rather than reading as lines. */}
+      <SectionPaths position={1} intensity="present" count={12} speed={26} />
+
+      <div className="relative z-10">
+        <Marquee items={site.hero.ticker} duration={46} />
+      </div>
 
       <ul role="list" className="sr-only">
         {site.hero.ticker.map((item, i) => (
