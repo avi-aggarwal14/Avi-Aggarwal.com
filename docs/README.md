@@ -24,6 +24,9 @@ portfolio into the site. That is the thing you came back to do.
 | 10 | [Decisions](./10-decisions.md) | Every non-obvious call, with the alternative that lost. |
 | 11 | [Build log](./11-build-log.md) | How it got built, in order, including everything that broke. |
 | 12 | [Deployment](./12-deployment.md) | Shipping it, and the pre-flight checklist. |
+| 13 | [QA checklist](./13-qa-checklist.md) | The `ui-ux-pro-max` pre-delivery checklist, worked through item by item. |
+| 14 | [21st.dev log](./14-21st-dev-log.md) | Every catalogue search, and why each result was taken or rejected. |
+| 15 | [Next steps](./15-next-steps.md) | What to build next, in the order worth building it. |
 
 ## The three things worth knowing up front
 
