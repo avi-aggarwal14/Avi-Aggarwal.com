@@ -336,6 +336,66 @@ body {
 }
 
 /* =============================================================================
+   ACCESSIBILITY — INCREASED CONTRAST
+   Some readers ask the OS for more contrast. Honour it by lifting the muted
+   greys and firming up every hairline, rather than ignoring the request.
+   ============================================================================= */
+
+@media (prefers-contrast: more) {
+  :root {
+    --bone-muted: #c9c4ba;
+    --bone-faint: #9c978d;
+    --line: rgba(243, 239, 231, 0.28);
+    --line-strong: rgba(243, 239, 231, 0.45);
+  }
+}
+
+/* =============================================================================
+   PRINT
+   A portfolio gets printed and saved to PDF more often than you would think —
+   usually by someone filing it alongside an application. Give them something
+   readable rather than forty pages of black ink.
+   ============================================================================= */
+
+@media print {
+  :root {
+    --ink: #ffffff;
+    --bone: #111111;
+    --bone-muted: #444444;
+    --bone-faint: #666666;
+    --line: rgba(0, 0, 0, 0.2);
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  /* Drop everything that only exists on a screen. */
+  .grain::after,
+  header,
+  footer a[href="#top"] {
+    display: none !important;
+  }
+
+  /* Sections should not be split down the middle by a page break. */
+  section {
+    break-inside: avoid;
+    padding: 1.5rem 0 !important;
+    min-height: 0 !important;
+  }
+
+  /* Print the destination of every link — a printed URL-less link is useless. */
+  a[href^="http"]::after,
+  a[href^="mailto"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #666;
+    word-break: break-all;
+  }
+}
+
+/* =============================================================================
    SCROLLBAR
    ============================================================================= */
 
