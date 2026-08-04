@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { ArrowUpRight, Copy, Check } from "lucide-react";
 import { useState } from "react";

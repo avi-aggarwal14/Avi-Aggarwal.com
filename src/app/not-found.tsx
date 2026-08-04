@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { site } from "@/content/site";
 import { SectionPaths } from "@/components/ui/floating-paths";
 

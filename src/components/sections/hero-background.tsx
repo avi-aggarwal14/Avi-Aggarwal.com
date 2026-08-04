@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { motion, useReducedMotion } from "framer-motion";
 import { FloatingPathsBackground } from "@/components/ui/floating-paths";
