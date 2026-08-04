@@ -55,7 +55,7 @@ export function Timeline() {
             className="bg-accent absolute top-2 bottom-2 left-0 w-px origin-top md:left-[9.5rem]"
           />
 
-          <ol className="space-y-14 md:space-y-20">
+          <ol role="list" className="space-y-14 md:space-y-20">
             {site.timeline.entries.map((entry, index) => (
               <li key={`${entry.period}-${entry.title}`}>
                 <Reveal delay={index * 0.06} y={22}>
