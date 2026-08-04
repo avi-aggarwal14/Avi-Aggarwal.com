@@ -1,6 +1,7 @@
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
+import { Cursor } from "@/components/layout/cursor";
 import { Hero } from "@/components/sections/hero";
 import { Ticker } from "@/components/sections/ticker";
 import { About } from "@/components/sections/about";
@@ -32,6 +33,7 @@ export default function Home() {
   return (
     <>
       <ScrollProgress />
+      <Cursor />
       <Nav />
 
       <main id="main">
