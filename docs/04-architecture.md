@@ -31,11 +31,17 @@ src/
     │   ├── section-heading.tsx
     │   └── shell.tsx
     │
+    ├── ui/                    shadcn-convention catalogue components
+    │   └── floating-paths.tsx  the gold filament backdrop
+    │
     ├── layout/               page furniture, present on every screen
     │   ├── nav.tsx
     │   ├── footer.tsx
     │   ├── scroll-progress.tsx
     │   └── cursor.tsx
+    │
+    ├── seo/
+    │   └── person-schema.tsx  schema.org JSON-LD
     │
     └── sections/             one file per band of the page
         ├── hero.tsx
