@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { EASE, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -66,27 +67,40 @@ export function TextReveal({
         transition={{ staggerChildren: stagger, delayChildren: delay }}
       >
         {words.map((word, i) => (
-          <span
-            key={`${word}-${i}`}
-            aria-hidden
-            // The clipping parent. Bottom padding stops descenders (g, y, p)
-            // being sliced off by the overflow.
-            className="inline-block overflow-hidden pb-[0.12em] align-bottom"
-          >
-            <motion.span
-              className="inline-block"
-              variants={{
-                hidden: { y: "110%" },
-                visible: {
-                  y: "0%",
-                  transition: { duration: 0.85, ease: EASE.outExpo },
-                },
-              }}
+          <Fragment key={`${word}-${i}`}>
+            <span
+              aria-hidden
+              // The clipping parent. Bottom padding stops descenders (g, y, p)
+              // being sliced off by the overflow.
+              className="inline-block overflow-hidden pb-[0.12em] align-bottom"
             >
-              {word}
-              {i < words.length - 1 ? " " : ""}
-            </motion.span>
-          </span>
+              <motion.span
+                className="inline-block"
+                variants={{
+                  hidden: { y: "110%" },
+                  visible: {
+                    y: "0%",
+                    transition: { duration: 0.85, ease: EASE.outExpo },
+                  },
+                }}
+              >
+                {word}
+              </motion.span>
+            </span>
+            {/* The inter-word space MUST live out here, as a sibling text node
+                between the two inline-blocks.
+
+                Putting it inside the inline-block — which is where it was —
+                makes CSS strip it: white space at the end of a line box is
+                removed, and an inline-block is its own line box. That is what
+                ran every heading and paragraph on the site together into
+                "Ashortheadingaboutyou".
+
+                It has to be a normal breaking space, not &nbsp;: this is the
+                only wrap opportunity in the whole string, so a non-breaking
+                space here would stop paragraphs wrapping at all. */}
+            {i < words.length - 1 ? " " : null}
+          </Fragment>
         ))}
       </motion.span>
     </Tag>
