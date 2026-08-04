@@ -63,6 +63,24 @@
   --measure: 68ch;
   --gutter: clamp(1.25rem, 5vw, 5rem);
   --shell: 82rem;
+
+  /* --- Z-INDEX SCALE -----------------------------------------------------
+     A declared ladder, so no component ever invents a z-9999. Every fixed or
+     absolutely-positioned element on the site uses one of these six rungs.
+       0  .. in-flow content
+       10 .. section-local overlays (hover beds, gradients, sticky headings)
+       20 .. hero foreground content above its own background layers
+       30 .. floating page furniture (scroll progress, scroll cue)
+       40 .. navigation
+       50 .. cursor-following previews / modals
+       60 .. the global grain, which must sit above absolutely everything */
+  --z-base: 0;
+  --z-local: 10;
+  --z-hero: 20;
+  --z-float: 30;
+  --z-nav: 40;
+  --z-overlay: 50;
+  --z-grain: 60;
 }
 
 /* Map tokens onto Tailwind v4 utilities. */
