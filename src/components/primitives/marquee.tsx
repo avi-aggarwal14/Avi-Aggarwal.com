@@ -33,7 +33,10 @@ export function Marquee({
 
   return (
     <div
-      className={cn("relative flex overflow-hidden select-none", className)}
+      className={cn(
+        "group/marquee relative flex overflow-hidden select-none",
+        className,
+      )}
       style={{
         maskImage:
           "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
@@ -42,8 +45,10 @@ export function Marquee({
       }}
       aria-hidden
     >
+      {/* Pauses on hover so the strip can actually be read. A ticker that
+          cannot be stopped is decoration; one that can is content. */}
       <div
-        className="animate-marquee flex shrink-0 items-center gap-8 whitespace-nowrap pr-8"
+        className="animate-marquee flex shrink-0 items-center gap-8 whitespace-nowrap pr-8 [animation-play-state:running] group-hover/marquee:[animation-play-state:paused]"
         style={{ ["--marquee-duration" as string]: `${duration}s` }}
       >
         {track.map((item, i) => (
