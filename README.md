@@ -96,6 +96,9 @@ the identity.
 | [10 · Decisions](./docs/10-decisions.md) | Every non-obvious call, and its alternative |
 | [11 · Build log](./docs/11-build-log.md) | How this got built, in order |
 | [12 · Deployment](./docs/12-deployment.md) | Shipping it |
+| [13 · QA checklist](./docs/13-qa-checklist.md) | The pre-delivery checklist, worked through |
+| [14 · 21st.dev log](./docs/14-21st-dev-log.md) | Every catalogue search and why each result was taken or rejected |
+| [15 · Next steps](./docs/15-next-steps.md) | What to build next |
 
 ---
 
