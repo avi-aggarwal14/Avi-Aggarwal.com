@@ -166,7 +166,7 @@ export function Work() {
                       {project.summary}
                     </p>
 
-                    <ul className="mt-4 flex flex-wrap gap-2">
+                    <ul role="list" className="mt-4 flex flex-wrap gap-2">
                       {project.tags.map((tag, tagIndex) => (
                         <li
                           key={`${tag}-${tagIndex}`}
