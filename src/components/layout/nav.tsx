@@ -104,8 +104,11 @@ export function Nav() {
             </span>
           </a>
 
-          {/* Desktop links */}
-          <ul className="hidden items-center gap-1 md:flex">
+          {/* Desktop links.
+              role="list" is not redundant: Tailwind's preflight sets
+              `list-style: none`, and Safari/VoiceOver drops list semantics from
+              any list styled that way. The role puts them back. */}
+          <ul role="list" className="hidden items-center gap-1 md:flex">
             {site.nav.map((item) => {
               const id = item.href.replace("#", "");
               const isActive = active === id;
@@ -186,7 +189,7 @@ export function Nav() {
               </button>
             </div>
 
-            <ul className="flex flex-col px-6 pt-8">
+            <ul role="list" className="flex flex-col px-6 pt-8">
               {site.nav.map((item, i) => (
                 <motion.li
                   key={item.href}
