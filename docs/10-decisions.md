@@ -86,7 +86,7 @@ This was a bug fix, not a preference.
 
 ### No light mode
 
-**Alternative:** `next-themes` and a toggle. The dependency is even installed.
+**Alternative:** `next-themes` and a toggle.
 
 A single, committed dark aesthetic is stronger than two adequate ones, and the
 entire design — the ambient blooms, the grain, the edge lighting, the champagne

@@ -67,7 +67,8 @@ Contact. The `SectionHeading` + list pattern from Work transfers directly.
 [10 · Decisions](./10-decisions.md). The entire visual system is built on a
 near-black base; a light variant needs a different accent and a different
 texture strategy, which makes it a second design rather than a theme toggle.
-`next-themes` is installed if you disagree, but budget it as real work.
+If you disagree, `next-themes` is the tool — but budget it as real design work,
+not an afternoon.
 
 **A contact form.** A `mailto:` cannot fail silently. An unmonitored form
 endpoint can, and does.
