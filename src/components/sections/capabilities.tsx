@@ -55,8 +55,9 @@ export function Capabilities() {
         />
 
         <div className="grid gap-px overflow-hidden rounded-xl sm:grid-cols-2 lg:grid-cols-3">
+          {/* Composite key — capability titles are not guaranteed unique. */}
           {site.capabilities.items.map((item, index) => (
-            <Reveal key={item.title} delay={index * 0.05} y={22}>
+            <Reveal key={`${item.title}-${index}`} delay={index * 0.05} y={22}>
               <CapabilityCard item={item} index={index} />
             </Reveal>
           ))}
