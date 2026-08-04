@@ -30,19 +30,27 @@ export type PathIntensity = "whisper" | "subtle" | "present";
  * Widths top out around 0.75px against the original's 1.55px — filaments
  * rather than ribbons, which is the difference between graphic and expensive.
  */
+/**
+ * Prominence is carried by OPACITY, not width.
+ *
+ * That split is deliberate. Making the strokes brighter keeps them visible;
+ * making them wider makes them look like ribbons, and "thin" is the whole
+ * brief. So opacity roughly tripled from the first pass while widths moved
+ * barely at all — still well under the source component's 0.5–1.55px.
+ */
 const INTENSITY: Record<
   PathIntensity,
   { opacityBase: number; opacityStep: number; widthBase: number; widthStep: number }
 > = {
-  // Behind the work list and other dense, interactive content.
-  // ~20 strokes: width 0.25 → 0.40, opacity 0.06 → 0.18.
-  whisper: { opacityBase: 0.06, opacityStep: 0.0063, widthBase: 0.25, widthStep: 0.0079 },
+  // Behind the densest, most interactive content.
+  // width 0.30 → 0.52, opacity 0.14 → 0.34.
+  whisper: { opacityBase: 0.14, opacityStep: 0.0118, widthBase: 0.3, widthStep: 0.013 },
   // The default for body sections.
-  // ~24-26 strokes: width 0.28 → 0.55, opacity 0.08 → 0.26.
-  subtle: { opacityBase: 0.08, opacityStep: 0.0072, widthBase: 0.28, widthStep: 0.0108 },
-  // Hero, contact, 404 — the moments allowed to be a bit theatrical.
-  // ~32-36 strokes: width 0.30 → 0.75, opacity 0.09 → 0.34.
-  present: { opacityBase: 0.09, opacityStep: 0.0071, widthBase: 0.3, widthStep: 0.0129 },
+  // width 0.32 → 0.62, opacity 0.2 → 0.48.
+  subtle: { opacityBase: 0.2, opacityStep: 0.0122, widthBase: 0.32, widthStep: 0.013 },
+  // Hero, contact, 404 — the moments allowed to be theatrical.
+  // width 0.35 → 0.85, opacity 0.26 → 0.62.
+  present: { opacityBase: 0.26, opacityStep: 0.0116, widthBase: 0.35, widthStep: 0.0161 },
 };
 
 /**
@@ -116,10 +124,16 @@ export function FloatingPathsBackground({
         style={{
           // Fade the strokes out at every edge so they dissolve into the page
           // instead of being guillotined by the section boundary.
+          //
+          // The mask is a prominence control in its own right: the first pass
+          // held full opacity only to 25% and was fully transparent by 78%,
+          // which meant most of every stroke was being faded away before it
+          // was ever seen. Widening it to 45% / 96% keeps far more of each
+          // sweep at full strength while still avoiding a hard edge.
           maskImage:
-            "radial-gradient(ellipse 85% 75% at 50% 50%, black 25%, transparent 78%)",
+            "radial-gradient(ellipse 110% 95% at 50% 50%, black 45%, transparent 96%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 85% 75% at 50% 50%, black 25%, transparent 78%)",
+            "radial-gradient(ellipse 110% 95% at 50% 50%, black 45%, transparent 96%)",
         }}
       >
         <svg
