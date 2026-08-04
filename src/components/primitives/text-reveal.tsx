@@ -77,7 +77,7 @@ export function TextReveal({
               }}
             >
               {word}
-              {i < words.length - 1 ? " " : ""}
+              {i < words.length - 1 ? " " : ""}
             </motion.span>
           </span>
         ))}
@@ -102,35 +102,69 @@ export function CharReveal({
     return <span className={className}>{text}</span>;
   }
 
+  // Characters are grouped into words rather than laid out as one flat run.
+  //
+  // A flat `inline-flex` of characters cannot wrap, so a long name would run
+  // straight off the side of a narrow screen. Letting that flat run wrap
+  // instead breaks words at arbitrary letters. Grouping gives the right
+  // behaviour at both ends: the line wraps between words, and never inside one.
+  //
+  // The stagger still runs continuously across the whole string, because every
+  // character takes its delay from its absolute index — so the grouping is
+  // invisible in the animation.
+  const words = text.split(" ");
+  let cursor = 0;
+
   return (
     <motion.span
       aria-label={text}
-      className={cn("inline-flex", className)}
+      className={cn("inline-flex flex-wrap", className)}
       initial="hidden"
       animate="visible"
-      transition={{ staggerChildren: stagger, delayChildren: delay }}
     >
-      {text.split("").map((char, i) => (
-        <span
-          key={`${char}-${i}`}
-          aria-hidden
-          className="inline-block overflow-hidden pb-[0.12em]"
-        >
-          <motion.span
-            className="inline-block"
-            variants={{
-              hidden: { y: "110%", opacity: 0 },
-              visible: {
-                y: "0%",
-                opacity: 1,
-                transition: { duration: 0.9, ease: EASE.outExpo },
-              },
-            }}
+      {words.map((word, wordIndex) => {
+        const isLast = wordIndex === words.length - 1;
+        // The trailing space belongs to this word's group, so it can never be
+        // orphaned at the start of a wrapped line. A plain " " between
+        // inline-blocks collapses to nothing, hence the non-breaking space.
+        const glyphs = isLast ? word.split("") : [...word.split(""), " "];
+
+        return (
+          <span
+            key={`${word}-${wordIndex}`}
+            className="inline-flex whitespace-nowrap"
           >
-            {char === " " ? " " : char}
-          </motion.span>
-        </span>
-      ))}
+            {glyphs.map((char, i) => {
+              const absolute = cursor++;
+              return (
+                <span
+                  key={`${char}-${i}`}
+                  aria-hidden
+                  className="inline-block overflow-hidden pb-[0.12em]"
+                >
+                  <motion.span
+                    className="inline-block"
+                    variants={{
+                      hidden: { y: "110%", opacity: 0 },
+                      visible: {
+                        y: "0%",
+                        opacity: 1,
+                        transition: {
+                          duration: 0.9,
+                          ease: EASE.outExpo,
+                          delay: delay + absolute * stagger,
+                        },
+                      },
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                </span>
+              );
+            })}
+          </span>
+        );
+      })}
     </motion.span>
   );
 }
