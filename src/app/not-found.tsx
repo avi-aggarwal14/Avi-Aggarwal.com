@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/content/site";
+import { SectionPaths } from "@/components/ui/floating-paths";
 
 /**
  * 404.
@@ -13,6 +14,10 @@ import { site } from "@/content/site";
 export default function NotFound() {
   return (
     <main className="relative flex min-h-[100svh] items-center overflow-hidden">
+      {/* The 404 gets the filaments too — a dead end should still look like
+          part of the same site, not a fallback someone forgot to style. */}
+      <SectionPaths position={-1} intensity="present" count={28} speed={32} />
+
       {/* One bloom, echoing the hero without repeating the whole stack. */}
       <div
         aria-hidden
