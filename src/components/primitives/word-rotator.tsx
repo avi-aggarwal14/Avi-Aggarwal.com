@@ -79,8 +79,13 @@ export function WordRotator({
         {longest}
       </span>
 
-      {/* No `mode` prop: outgoing and incoming overlap and crossfade. */}
-      <AnimatePresence>
+      {/* No `mode` prop: outgoing and incoming overlap and crossfade.
+          `initial={false}` matters for more than taste — without it framer
+          writes the hidden variant into the server-rendered HTML, so the very
+          first word arrives as `opacity:0` and the line reads "Currently" with
+          nothing after it until hydration completes. With it, the first word is
+          simply present at first paint; only subsequent swaps animate. */}
+      <AnimatePresence initial={false}>
         <motion.span
           key={index}
           className="absolute inset-0 flex items-baseline justify-start whitespace-nowrap"
