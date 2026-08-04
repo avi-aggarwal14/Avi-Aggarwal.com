@@ -65,9 +65,17 @@ Found and fixed during verification, none of which the checklist asks about:
 - **Three bugs inside the retrieved 21st.dev components** — a preview that
   detaches from the cursor on scroll, an rAF loop rescheduling on every pointer
   event, and a text rotator that clips any word longer than its first.
-- **Two content-driven overflow risks** — the hero name could not wrap, and the
-  contact email was fixed-size. Both are content-driven, so both were made
-  robust rather than tuned to the current placeholder.
+- **Three content-driven overflow risks** — the hero name could not wrap, the
+  role rotator was fixed-size with `whitespace-nowrap`, and the contact email
+  was fixed-size and unbreakable. All three were made robust rather than tuned
+  to the current placeholder, because the real content does not exist yet.
+- **Five unnamed landmark regions** — sections had no accessible name. Now
+  `aria-labelledby` their own headings.
+- **Ticker content unreachable** — the marquee has to be `aria-hidden` (it
+  duplicates its list), which made real content invisible to screen readers. A
+  visually-hidden list was added alongside.
+- **A 3px hairline** in the capabilities grid where every other rule is 1px,
+  caused by bordered cards separated by a gap.
 
 ## Still outstanding
 
