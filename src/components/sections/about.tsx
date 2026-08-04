@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { site } from "@/content/site";
@@ -10,7 +10,7 @@ import { Section, Shell } from "@/components/primitives/shell";
 import { TextReveal } from "@/components/primitives/text-reveal";
 
 /**
- * About — a 5/7 editorial split.
+ * About â€” a 5/7 editorial split.
  *
  * The lede is set noticeably larger than the body copy that follows. That one
  * decision does most of the work: it gives the reader an obvious entry point
@@ -24,7 +24,7 @@ export function About() {
   return (
     // Flow mirrors the hero (which runs at -1), so the eye is carried back
     // across the page rather than dragged the same way twice.
-    <Section id="about" paths={{ position: 1, intensity: "subtle", count: 26 }}>
+    <Section id="about" paths={{ position: 1, intensity: "subtle", count: 18 }}>
       <Shell>
         <SectionHeading
           eyebrow={site.about.eyebrow}
@@ -104,7 +104,7 @@ export function About() {
                     <PortraitPlaceholder />
                   )}
 
-                  {/* Inner hairline — catches light at the frame edge. */}
+                  {/* Inner hairline â€” catches light at the frame edge. */}
                   <div
                     aria-hidden
                     className="ring-bone/10 pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset"
@@ -126,7 +126,7 @@ export function About() {
 
 /**
  * Stand-in for the portrait: a lattice, a bloom and an explicit instruction.
- * Better than a grey box — it holds the exact aspect ratio the real image will
+ * Better than a grey box â€” it holds the exact aspect ratio the real image will
  * occupy, so nothing shifts when the photograph arrives.
  */
 function PortraitPlaceholder() {

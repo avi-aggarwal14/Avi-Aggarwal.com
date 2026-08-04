@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -11,7 +11,7 @@ import { Section, Shell } from "@/components/primitives/shell";
  * Timeline with a scroll-drawn spine.
  *
  * A vertical rule runs the height of the list and fills from the top as you
- * scroll through the section — so the line is literally drawn by the act of
+ * scroll through the section â€” so the line is literally drawn by the act of
  * reading. It is `scaleY` on a transform-origin-top element, which stays on the
  * compositor; animating `height` here would force layout on every frame.
  *
@@ -37,7 +37,7 @@ export function Timeline() {
   return (
     <Section
       id="timeline"
-      paths={{ position: -1, intensity: "subtle", count: 24 }}
+      paths={{ position: -1, intensity: "subtle", count: 18 }}
     >
       <Shell>
         <SectionHeading

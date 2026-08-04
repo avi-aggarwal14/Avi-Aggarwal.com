@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion, useReducedMotion } from "framer-motion";
 import { FloatingPathsBackground } from "@/components/ui/floating-paths";
@@ -9,13 +9,13 @@ import { FloatingPathsBackground } from "@/components/ui/floating-paths";
  * Adapted from the `HeroBackground` inside the 21st.dev "Classy Hero"
  * (@jatin-yadav05). Seven stacked layers, none of them an image file:
  *
- *   1. dotted lattice     — two offset radial-gradients
- *   2. gold filaments     — the flowing FloatingPaths, drawn in the accent
- *   3. ambient blooms     — slow, blurred radials that breathe
- *   4. vignette           — pulls the eye to the centre
- *   5. sweep highlight    — a diagonal band that crosses on a long cycle
- *   6. edge lighting      — hairlines catching light at the frame
- *   7. horizon glow       — a low warm wash at the base
+ *   1. dotted lattice     â€” two offset radial-gradients
+ *   2. gold filaments     â€” the flowing FloatingPaths, drawn in the accent
+ *   3. ambient blooms     â€” slow, blurred radials that breathe
+ *   4. vignette           â€” pulls the eye to the centre
+ *   5. sweep highlight    â€” a diagonal band that crosses on a long cycle
+ *   6. edge lighting      â€” hairlines catching light at the frame
+ *   7. horizon glow       â€” a low warm wash at the base
  *
  * Layer order matters: the filaments sit *above* the lattice but *below* the
  * vignette and blooms, so they are softened by everything on top of them
@@ -25,7 +25,7 @@ import { FloatingPathsBackground } from "@/components/ui/floating-paths";
  * fine-grain SVG tile; here the blooms carry a trace of the champagne accent
  * so the hero sits in the same palette as the rest of the site, and the grain
  * is dropped because `body.grain` in globals.css already lays a single grain
- * pass over the entire document — running two would double the noise.
+ * pass over the entire document â€” running two would double the noise.
  *
  * Everything is `aria-hidden` and every animated property is `opacity` or
  * `transform`, so nothing here touches layout or the accessibility tree.
@@ -35,7 +35,7 @@ export function HeroBackground() {
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      {/* 1 — dotted lattice */}
+      {/* 1 â€” dotted lattice */}
       <div
         className="absolute inset-0 opacity-[0.28]"
         style={{
@@ -53,17 +53,17 @@ export function HeroBackground() {
         }}
       />
 
-      {/* 2 — gold filaments. The hero gets the fullest treatment: the most
+      {/* 2 â€” gold filaments. The hero gets the fullest treatment: the most
              strokes, the slowest pass, and the "present" intensity. */}
       <FloatingPathsBackground
         position={-1}
         intensity="present"
-        count={36}
+        count={24}
         speed={30}
         className="absolute inset-0 h-full"
       />
 
-      {/* 3 — ambient blooms */}
+      {/* 3 â€” ambient blooms */}
       <motion.div
         className="absolute -top-40 -right-32 h-[32rem] w-[32rem] rounded-full blur-[120px]"
         style={{
@@ -88,7 +88,7 @@ export function HeroBackground() {
         }}
       />
 
-      {/* 4 — vignette */}
+      {/* 4 â€” vignette */}
       <div
         className="absolute inset-0"
         style={{
@@ -97,7 +97,7 @@ export function HeroBackground() {
         }}
       />
 
-      {/* 5 — sweep highlight, on a long cycle so it reads as a glint */}
+      {/* 5 â€” sweep highlight, on a long cycle so it reads as a glint */}
       {reduceMotion ? null : (
         <motion.div
           className="absolute -inset-full h-[300%] w-[200%] opacity-[0.07]"
@@ -116,7 +116,7 @@ export function HeroBackground() {
         />
       )}
 
-      {/* 6 — edge lighting */}
+      {/* 6 â€” edge lighting */}
       <div className="absolute inset-0">
         <div className="via-bone/20 absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent to-transparent" />
         <div className="via-bone/8 absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent to-transparent" />
@@ -124,7 +124,7 @@ export function HeroBackground() {
         <div className="from-bone/12 absolute top-0 right-0 bottom-0 w-px bg-gradient-to-b to-transparent" />
       </div>
 
-      {/* 7 — horizon glow, tying the hero into the section beneath it */}
+      {/* 7 â€” horizon glow, tying the hero into the section beneath it */}
       <div
         className="absolute right-0 bottom-0 left-0 h-64"
         style={{
