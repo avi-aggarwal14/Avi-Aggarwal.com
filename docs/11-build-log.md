@@ -159,7 +159,34 @@ instead of standing still.
 Fixed by switching the three looping animations off outright rather than
 collapsing them.
 
-## 10 · Verification
+## 10 · Third pass — robustness against unknown content
+
+The site ships with placeholder content, which means every fixed-size element
+is a bet on content that does not exist yet. Three places were quietly assuming
+the placeholders:
+
+| Element | Problem | Fix |
+| --- | --- | --- |
+| Hero name | `CharReveal` laid characters out as a flat `inline-flex`, which cannot wrap. A long name would run off the side of a narrow screen. | Group characters into words. The line now wraps between words and never inside one; the stagger still runs continuously across the string. |
+| Role rotator | Fixed `text-3xl md:text-5xl` with `whitespace-nowrap`. A long role would overflow. | Fluid `clamp(1.65rem, 7vw, 3rem)`. |
+| Contact email | Fixed display size, unbreakable. | Fluid `clamp()` plus `break-all`. |
+
+Also in this pass: a schema.org `Person` block built from the content file,
+security headers, a web manifest, `.gitattributes` (which silenced the CRLF
+warning on every commit), and a visual fix to the capabilities grid — bordered
+cards separated by a gap were stacking 3px of line between neighbours where
+every other rule on the page is 1px.
+
+## 11 · Fourth pass — screen reader semantics
+
+- Every `<section>` given `aria-labelledby` pointing at its own heading, so
+  landmark navigation reads real names instead of five unnamed regions.
+- The ticker's items exposed as a visually-hidden `<ul>`. The marquee itself has
+  to be `aria-hidden` — it duplicates its list to make the loop seamless — but
+  the items are real content and were previously unreachable.
+- `role="list"` restored on all six styled lists.
+
+## 12 · Verification
 
 | Check | Result |
 | --- | --- |
@@ -169,6 +196,9 @@ collapsing them.
 | Horizontal scroll @ 375 / 768 / 1440 | None |
 | Touch targets < 44px | None |
 | Heading structure | 1 × h1, 5 × h2, 14 × h3 — no skipped levels |
+| Section labels resolve | 5 / 5 |
+| Skip link is first tabbable, target exists | Yes |
+| JSON-LD parses | Yes |
 
 ## What is still not done
 
