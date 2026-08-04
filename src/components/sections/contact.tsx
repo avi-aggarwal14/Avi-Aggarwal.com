@@ -60,11 +60,17 @@ export function Contact() {
         {/* The email, as the primary control */}
         <Reveal delay={0.2} y={22}>
           <div className="mt-14 flex flex-wrap items-center gap-4">
+            {/* Fluid rather than a fixed md: step, and allowed to break:
+                the address comes from the content file, and a long one at a
+                fixed display size would run straight off a narrow screen. */}
             <a
               href={`mailto:${site.contact.email}`}
-              className="group border-bone/15 hover:border-accent/60 inline-flex cursor-pointer items-center gap-4 border-b pb-2 transition-colors duration-300"
+              className="group border-bone/15 hover:border-accent/60 inline-flex max-w-full cursor-pointer items-center gap-4 border-b pb-2 transition-colors duration-300"
             >
-              <span className="font-display text-bone group-hover:text-accent text-3xl transition-colors duration-300 md:text-5xl">
+              <span
+                className="font-display text-bone group-hover:text-accent min-w-0 break-all transition-colors duration-300"
+                style={{ fontSize: "clamp(1.5rem, 5.2vw, 3rem)" }}
+              >
                 {site.contact.email}
               </span>
               <ArrowUpRight
