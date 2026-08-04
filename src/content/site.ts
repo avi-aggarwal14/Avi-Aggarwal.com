@@ -63,8 +63,12 @@ export const site = {
     title: "Avi Aggarwal",
     description:
       "Placeholder description. Replace with one or two sentences describing who you are and what you build — this is what shows up in search results and link previews.",
-    /** og:image lives at /public/og.png. 1200×630. */
-    ogImage: "/og.png",
+    /**
+     * The social preview card is GENERATED, not a file — see
+     * src/app/opengraph-image.tsx. It reads `name`, `tagline` and `domain`
+     * from this object, so it can never drift out of sync with the site.
+     * Nothing to upload.
+     */
   },
 
   /* --- Hero -------------------------------------------------------------- */
