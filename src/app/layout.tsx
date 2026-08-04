@@ -50,6 +50,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
+  manifest: "/site.webmanifest",
   robots: { index: true, follow: true },
 };
 
