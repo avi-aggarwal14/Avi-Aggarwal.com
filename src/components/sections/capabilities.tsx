@@ -54,7 +54,11 @@ export function Capabilities() {
           aside={`${pad(site.capabilities.items.length)} disciplines`}
         />
 
-        <div className="grid gap-px overflow-hidden rounded-xl sm:grid-cols-2 lg:grid-cols-3">
+        {/* Hairlines come from the container showing through 1px gaps, not
+            from a border on every card. Bordered cards separated by a gap
+            stack up to 3px of line between neighbours, which reads as heavy
+            next to the 1px rules used everywhere else on the page. */}
+        <div className="border-bone/10 bg-bone/10 grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-3">
           {/* Composite key — capability titles are not guaranteed unique. */}
           {site.capabilities.items.map((item, index) => (
             <Reveal key={`${item.title}-${index}`} delay={index * 0.05} y={22}>
@@ -93,7 +97,7 @@ function CapabilityCard({
       onMouseMove={handleMove}
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
-      className="group border-bone/10 bg-ink-raised/40 relative h-full overflow-hidden border p-8 transition-colors duration-300 md:p-10"
+      className="group bg-ink relative h-full overflow-hidden p-8 transition-colors duration-300 md:p-10"
     >
       {/* Pointer spotlight */}
       <div
@@ -114,7 +118,7 @@ function CapabilityCard({
 
       <div className="relative">
         <div className="flex items-start justify-between">
-          <span className="border-bone/10 bg-ink text-accent inline-flex h-11 w-11 items-center justify-center rounded-lg border">
+          <span className="border-bone/10 bg-ink-raised text-accent inline-flex h-11 w-11 items-center justify-center rounded-lg border">
             <Icon className="h-5 w-5" aria-hidden strokeWidth={1.5} />
           </span>
           <span className="text-bone-faint font-mono text-[11px] tabular-nums">
