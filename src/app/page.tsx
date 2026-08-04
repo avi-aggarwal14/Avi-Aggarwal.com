@@ -9,6 +9,7 @@ import { Work } from "@/components/sections/work";
 import { Capabilities } from "@/components/sections/capabilities";
 import { Timeline } from "@/components/sections/timeline";
 import { Contact } from "@/components/sections/contact";
+import { PersonSchema } from "@/components/seo/person-schema";
 
 /**
  * The page.
@@ -32,6 +33,7 @@ import { Contact } from "@/components/sections/contact";
 export default function Home() {
   return (
     <>
+      <PersonSchema />
       <ScrollProgress />
       <Cursor />
       <Nav />
