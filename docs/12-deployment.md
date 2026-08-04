@@ -26,6 +26,17 @@ times. See [`07-content-guide.md`](./07-content-guide.md).
 
 At minimum, change `contact.email` — it is currently `hello@example.com`.
 
+This matters more than it looks. The page emits a schema.org `Person` block
+built from the same content, so shipping placeholders means publishing
+structured data that says your `jobTitle` is "Placeholder tagline" and that you
+`knowsAbout` "Placeholder capability" six times. Search engines treat structured
+data that contradicts — or is obvious filler relative to — the visible page as a
+spam signal, not as something to quietly ignore.
+
+The `sameAs` array is the other one to check: it currently points at
+`https://github.com`, `https://linkedin.com` and `https://x.com` — the sites
+themselves, not your profiles.
+
 ### 3. Check the build
 
 ```bash
