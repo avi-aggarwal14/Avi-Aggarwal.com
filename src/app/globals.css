@@ -111,6 +111,11 @@
   --color-bone-muted: var(--bone-muted);
   --color-bone-faint: var(--bone-faint);
 
+  /* next/font exposes --font-dm-sans etc. on <html> (see layout.tsx). These
+     are referenced directly rather than via an intermediate --font-sans:
+     `@theme inline` INLINES a value into the generated utilities instead of
+     emitting it as a custom property, so `var(--font-sans)` would resolve to
+     nothing in the base rules below. */
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
@@ -139,7 +144,7 @@ html {
 body {
   background-color: var(--ink);
   color: var(--bone);
-  font-family: var(--font-sans);
+  font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -184,7 +189,7 @@ body {
    ============================================================================= */
 
 .font-display {
-  font-family: var(--font-serif);
+  font-family: var(--font-instrument-serif), ui-serif, Georgia, serif;
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 0.95;
@@ -203,7 +208,7 @@ body {
 
 /* Small-caps eyebrow used above every section heading. */
 .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
   font-size: 0.6875rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
