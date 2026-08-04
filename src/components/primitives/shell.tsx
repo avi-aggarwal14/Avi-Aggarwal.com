@@ -35,19 +35,28 @@ export function Shell({
 /**
  * Vertical rhythm between sections. One scale, applied consistently, so the
  * page breathes at the same rate from top to bottom.
+ *
+ * `aria-labelledby` points at the section's own heading, which is what lets a
+ * screen reader's landmark list read "Selected work, region" rather than six
+ * identical unnamed regions. The heading ids are derived from the section id,
+ * so they stay in sync automatically.
  */
 export function Section({
   children,
   id,
   className,
+  labelledBy,
 }: {
   children: ReactNode;
   id?: string;
   className?: string;
+  /** Id of the heading that names this section. Defaults to `${id}-heading`. */
+  labelledBy?: string;
 }) {
   return (
     <section
       id={id}
+      aria-labelledby={labelledBy ?? (id ? `${id}-heading` : undefined)}
       className={cn("relative scroll-mt-24 py-24 md:py-36", className)}
     >
       {children}
