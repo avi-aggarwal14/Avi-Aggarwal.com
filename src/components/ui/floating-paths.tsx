@@ -15,16 +15,34 @@ import { cn } from "@/lib/utils";
  */
 export type PathIntensity = "whisper" | "subtle" | "present";
 
+/**
+ * Stroke widths are all sub-pixel, which matters more than it looks: a 0.5px
+ * line does not render at half intensity, it renders at full colour across
+ * roughly half a pixel of antialiased coverage. So the *effective* brightness
+ * of every stroke here is its opacity multiplied by its width.
+ *
+ * That is the whole reason for the tuning below. The obvious move — very low
+ * opacity AND very low width — multiplies two small numbers together and the
+ * thinnest strokes disappear entirely, leaving DOM nodes that paint nothing.
+ * These ranges keep every stroke above the visibility floor while staying
+ * comfortably finer than the 0.5 → 1.55 of the source component.
+ *
+ * Widths top out around 0.75px against the original's 1.55px — filaments
+ * rather than ribbons, which is the difference between graphic and expensive.
+ */
 const INTENSITY: Record<
   PathIntensity,
   { opacityBase: number; opacityStep: number; widthBase: number; widthStep: number }
 > = {
   // Behind the work list and other dense, interactive content.
-  whisper: { opacityBase: 0.03, opacityStep: 0.005, widthBase: 0.12, widthStep: 0.008 },
+  // ~20 strokes: width 0.25 → 0.40, opacity 0.06 → 0.18.
+  whisper: { opacityBase: 0.06, opacityStep: 0.0063, widthBase: 0.25, widthStep: 0.0079 },
   // The default for body sections.
-  subtle: { opacityBase: 0.04, opacityStep: 0.008, widthBase: 0.14, widthStep: 0.01 },
+  // ~24-26 strokes: width 0.28 → 0.55, opacity 0.08 → 0.26.
+  subtle: { opacityBase: 0.08, opacityStep: 0.0072, widthBase: 0.28, widthStep: 0.0108 },
   // Hero, contact, 404 — the moments allowed to be a bit theatrical.
-  present: { opacityBase: 0.05, opacityStep: 0.013, widthBase: 0.16, widthStep: 0.012 },
+  // ~32-36 strokes: width 0.30 → 0.75, opacity 0.09 → 0.34.
+  present: { opacityBase: 0.09, opacityStep: 0.0071, widthBase: 0.3, widthStep: 0.0129 },
 };
 
 /**
