@@ -282,6 +282,54 @@ body {
    MOTION UTILITIES
    ============================================================================= */
 
+/* =============================================================================
+   ABOVE-THE-FOLD ENTRANCE — CSS, NOT JAVASCRIPT
+   -----------------------------------------------------------------------------
+   framer-motion's `initial` state is written into the server-rendered HTML as
+   an inline `opacity:0`. For content below the fold that is fine — nobody is
+   looking at it before hydration. For the HERO it was the single worst bug on
+   the site: the first paint contained 76 invisible elements, so a visitor got a
+   black page with gold waves and no words on it until the JS bundle had
+   downloaded, React had hydrated, AND a 2.1s staggered timeline had run.
+
+   These keyframes replace that for the hero only. CSS animations start at first
+   paint, so the hero is never waiting on JavaScript, and the whole entrance now
+   completes in under a second.
+   ============================================================================= */
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Per-character rise out of an overflow-hidden mask, matching the look the
+   framer version had. */
+@keyframes hero-char {
+  from {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-in {
+  animation: hero-rise 0.75s var(--ease-out-expo) backwards;
+}
+
+.hero-char {
+  display: inline-block;
+  animation: hero-char 0.85s var(--ease-out-expo) backwards;
+}
+
 @keyframes marquee-x {
   from {
     transform: translateX(0);
