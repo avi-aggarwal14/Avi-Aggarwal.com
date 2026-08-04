@@ -22,8 +22,8 @@ import { TextReveal } from "@/components/primitives/text-reveal";
  */
 export function About() {
   return (
-    {/* Flow mirrors the hero (which runs at -1), so the eye is carried back
-        across the page rather than dragged the same way twice. */}
+    // Flow mirrors the hero (which runs at -1), so the eye is carried back
+    // across the page rather than dragged the same way twice.
     <Section id="about" paths={{ position: 1, intensity: "subtle", count: 26 }}>
       <Shell>
         <SectionHeading

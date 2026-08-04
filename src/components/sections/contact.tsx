@@ -33,8 +33,8 @@ export function Contact() {
   }
 
   return (
-    {/* The closing statement, so it gets the fullest treatment after the hero
-        — the most strokes and the slowest pass on the page. */}
+    // The closing statement, so it gets the fullest treatment after the hero
+    // — the most strokes and the slowest pass on the page.
     <Section
       id="contact"
       className="pb-32 md:pb-44"
