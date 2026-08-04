@@ -135,7 +135,16 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* NO `scroll-behavior: smooth`.
+
+     It reads as a nice touch and is actively harmful on a page this tall.
+     Clicking "Contact" from the top animates a ~5500px journey lasting several
+     seconds, and every section it flies past is caught mid-reveal — so the
+     visitor watches a stack of empty dark panels stream by and concludes the
+     site is broken or still loading. Landing instantly is both faster and
+     calmer. The scroll-driven animations still animate on ordinary wheel and
+     trackpad scrolling, which is where they belong. */
+
   /* Anchor targets clear the fixed navigation. */
   scroll-padding-top: 6rem;
   -webkit-text-size-adjust: 100%;
@@ -322,9 +331,6 @@ body {
    ============================================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {
