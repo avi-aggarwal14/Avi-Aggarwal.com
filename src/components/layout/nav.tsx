@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -41,24 +41,47 @@ export function Nav() {
 
     if (sections.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Pick the entry closest to the top of the viewport that is visible.
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              Math.abs(a.boundingClientRect.top) -
-              Math.abs(b.boundingClientRect.top),
-          );
-        if (visible[0]) setActive(visible[0].target.id);
-      },
-      // Band across the upper-middle of the viewport.
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-    );
+    // Deterministic scroll-spy.
+    //
+    // The previous implementation sorted the IntersectionObserver *entries*.
+    // That is wrong: `entries` only contains the sections whose intersection
+    // CHANGED in that callback, not every section. So the winner depended on
+    // which section happened to report last, and during a long smooth scroll
+    // the indicator would stick on whichever that was — usually not the one
+    // actually on screen.
+    //
+    // Instead: measure every section and pick the one containing a probe line
+    // 35% down the viewport. Same answer every time, whatever the scroll speed.
+    let frame = 0;
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    const pick = () => {
+      frame = 0;
+      const probe = window.innerHeight * 0.35;
+      let current = "";
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= probe && rect.bottom > probe) {
+          current = section.id;
+          break;
+        }
+      }
+      // Empty string above the first section (the hero owns no nav entry).
+      setActive(current);
+    };
+
+    const onScroll = () => {
+      // Coalesce to one measurement per frame; scroll fires far more often.
+      if (!frame) frame = requestAnimationFrame(pick);
+    };
+
+    pick();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   // Lock the page behind the open mobile sheet.
@@ -92,7 +115,7 @@ export function Nav() {
               area the 44px minimum height a thumb needs. */}
           <a
             href="#top"
-            aria-label={`${site.name} — back to top`}
+            aria-label={`${site.name} â€” back to top`}
             className="group -mx-2 flex min-h-[44px] cursor-pointer items-center gap-2.5 px-2"
           >
             <span
@@ -150,7 +173,7 @@ export function Nav() {
               Get in touch
             </a>
 
-            {/* Mobile trigger — icon-only, so it needs a label. */}
+            {/* Mobile trigger â€” icon-only, so it needs a label. */}
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
