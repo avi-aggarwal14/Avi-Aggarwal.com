@@ -134,7 +134,15 @@ export function Work() {
               <a
                 href={project.href}
                 onMouseEnter={(event) => handleEnter(index, event)}
-                onFocus={() => setHovered(index)}
+                onFocus={(event) => {
+                  setHovered(index);
+                  // Keyboard users get no scroll from focus alone when a row
+                  // is only partly on screen. Bring it fully into view.
+                  event.currentTarget.scrollIntoView({
+                    block: "nearest",
+                    behavior: "smooth",
+                  });
+                }}
                 onBlur={() => setHovered(null)}
                 className="group border-bone/10 relative block cursor-pointer border-b"
               >
