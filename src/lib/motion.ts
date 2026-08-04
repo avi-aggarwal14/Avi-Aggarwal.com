@@ -61,7 +61,23 @@ export function stagger(staggerChildren = 0.06, delayChildren = 0): Variants {
 
 /**
  * Shared viewport config for scroll-triggered reveals.
+ *
  * `once` matters: re-animating on every scroll-past is the fastest way to make
  * a site feel cheap.
+ *
+ * `margin` matters more than it looks. The bottom edge of the detection area
+ * is pushed 240px *below* the viewport, so a block starts revealing before it
+ * is on screen rather than after. Without that head start, a fast scroll — or
+ * a long smooth-scroll from a nav link, which crosses ~2000px of page — shows
+ * section after section as an empty dark panel that only fades in once it has
+ * already arrived. That is what made the site look like it was glitching or
+ * still loading.
+ *
+ * `amount` is low for the same reason: waiting for a quarter of a tall block
+ * to be visible is a long wait on a 1000px-high section.
  */
-export const viewportOnce = { once: true, amount: 0.25 } as const;
+export const viewportOnce = {
+  once: true,
+  amount: 0.1,
+  margin: "0px 0px 240px 0px",
+} as const;
