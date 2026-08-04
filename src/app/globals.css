@@ -333,6 +333,19 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* The blanket rule above is wrong for looping animations: collapsing the
+     duration doesn't stop them, it fast-forwards them to their end state.
+     These three need to be switched off outright and left at their start. */
+  .animate-marquee {
+    animation: none !important;
+    transform: translateX(0) !important;
+  }
+  .animate-scroll-cue,
+  .animate-pulse-soft {
+    animation: none !important;
+    opacity: 0.6 !important;
+  }
 }
 
 /* =============================================================================
