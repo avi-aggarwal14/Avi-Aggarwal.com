@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   AVI AGGARWAL — DESIGN TOKENS
+   -----------------------------------------------------------------------------
+   Direction: editorial dark minimalism, motion-driven.
+   Base is a monochrome ink/bone scale; exactly ONE chromatic accent carries
+   every highlight on the site. To re-skin the whole thing, change --accent.
+   ============================================================================= */
+
+:root {
+  /* --- Core surfaces: a warm-leaning near-black, never pure #000 --------- */
+  --ink: #08080a;
+  --ink-raised: #0f0f13;
+  --ink-overlay: #16161b;
+
+  /* --- Type: warm bone rather than clinical white ------------------------ */
+  --bone: #f3efe7;
+  --bone-muted: #9c978d;
+  --bone-faint: #5d5a54;
+
+  /* --- The single accent. Change this one line to re-skin the site. ------ */
+  --accent: #d6b77c;
+  --accent-soft: rgba(214, 183, 124, 0.14);
+
+  /* --- Hairlines --------------------------------------------------------- */
+  --line: rgba(243, 239, 231, 0.1);
+  --line-strong: rgba(243, 239, 231, 0.2);
+
+  /* --- shadcn / 21st.dev compatibility aliases ---------------------------
+     21st.dev components are authored against these names (bg-background,
+     text-muted-foreground, border-border, bg-secondary …). Mapping them here
+     means catalogue components drop in already wearing our palette. */
+  --background: var(--ink);
+  --foreground: var(--bone);
+  --card: var(--ink-raised);
+  --card-foreground: var(--bone);
+  --popover: var(--ink-overlay);
+  --popover-foreground: var(--bone);
+  --primary: var(--bone);
+  --primary-foreground: var(--ink);
+  --secondary: var(--ink-raised);
+  --secondary-foreground: var(--bone);
+  --muted: var(--ink-raised);
+  --muted-foreground: var(--bone-muted);
+  --destructive: #e2564d;
+  --destructive-foreground: var(--bone);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--accent);
+
+  --radius: 0.75rem;
+
+  /* --- Motion: one easing vocabulary, used everywhere -------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 720ms;
+
+  /* --- Editorial measure ------------------------------------------------- */
+  --measure: 68ch;
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --shell: 82rem;
+}
+
+/* Map tokens onto Tailwind v4 utilities. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ink: var(--ink);
+  --color-ink-raised: var(--ink-raised);
+  --color-ink-overlay: var(--ink-overlay);
+  --color-bone: var(--bone);
+  --color-bone-muted: var(--bone-muted);
+  --color-bone-faint: var(--bone-faint);
+
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* =============================================================================
+   BASE
+   ============================================================================= */
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Anchor targets clear the fixed navigation. */
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Belt and braces against a stray wide child causing sideways scroll. */
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--ink);
+}
+
+/* Visible, on-brand focus ring — never remove the outline outright. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip link: invisible until focused. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--bone);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: top var(--dur-fast) var(--ease-out-expo);
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* =============================================================================
+   TYPOGRAPHY
+   ============================================================================= */
+
+.font-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+/* Fluid display sizes — no media queries needed. */
+.text-display-xl {
+  font-size: clamp(3.25rem, 13vw, 12rem);
+}
+.text-display-lg {
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
+}
+.text-display-md {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+}
+
+/* Small-caps eyebrow used above every section heading. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-muted);
+}
+
+.prose-measure {
+  max-width: var(--measure);
+}
+
+/* =============================================================================
+   TEXTURE
+   ============================================================================= */
+
+/* Fixed film grain over the whole document. Kills banding on the dark
+   gradients and is the single cheapest "expensive" cue there is. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* Hairline rule that fades at both ends — used between sections. */
+.rule {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--line-strong) 18%,
+    var(--line-strong) 82%,
+    transparent
+  );
+}
+
+/* =============================================================================
+   MOTION UTILITIES
+   ============================================================================= */
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.animate-marquee {
+  animation: marquee-x var(--marquee-duration, 40s) linear infinite;
+}
+.animate-pulse-soft {
+  animation: pulse-soft 3.2s var(--ease-in-out-soft) infinite;
+}
+.animate-scroll-cue {
+  animation: scroll-cue 2.4s var(--ease-in-out-soft) infinite;
+}
+
+/* =============================================================================
+   ACCESSIBILITY — REDUCED MOTION
+   Anything decorative stops. Nothing that carries meaning disappears.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================================
+   SCROLLBAR
+   ============================================================================= */
+
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(243, 239, 231, 0.14);
+    border-radius: 999px;
+    border: 3px solid var(--ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(243, 239, 231, 0.26);
+  }
+}
