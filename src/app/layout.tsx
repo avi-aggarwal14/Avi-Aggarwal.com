@@ -64,10 +64,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} grain antialiased`}
-      >
+    // Font variables go on <html>, not <body>: Tailwind's font-* utilities
+    // resolve them, and putting them at the document root means they are in
+    // scope for every element rather than only body's descendants.
+    <html
+      lang="en"
+      className={`dark ${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="grain antialiased">
         {/* First tab stop on the page — jumps past the navigation. */}
         <a href="#main" className="skip-link">
           Skip to content
