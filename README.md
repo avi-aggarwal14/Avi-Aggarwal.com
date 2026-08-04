@@ -99,6 +99,7 @@ the identity.
 | [13 · QA checklist](./docs/13-qa-checklist.md) | The pre-delivery checklist, worked through |
 | [14 · 21st.dev log](./docs/14-21st-dev-log.md) | Every catalogue search and why each result was taken or rejected |
 | [15 · Next steps](./docs/15-next-steps.md) | What to build next |
+| [16 · Gold filaments](./docs/16-floating-paths.md) | The flowing line treatment behind six sections |
 
 ---
 

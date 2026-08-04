@@ -27,6 +27,7 @@ portfolio into the site. That is the thing you came back to do.
 | 13 | [QA checklist](./13-qa-checklist.md) | The `ui-ux-pro-max` pre-delivery checklist, worked through item by item. |
 | 14 | [21st.dev log](./14-21st-dev-log.md) | Every catalogue search, and why each result was taken or rejected. |
 | 15 | [Next steps](./15-next-steps.md) | What to build next, in the order worth building it. |
+| 16 | [Gold filaments](./16-floating-paths.md) | The flowing line treatment — tuning, per-section table, and the sub-pixel trap. |
 
 ## The three things worth knowing up front
 
