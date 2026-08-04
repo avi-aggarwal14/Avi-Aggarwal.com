@@ -40,6 +40,7 @@ export function Timeline() {
         <SectionHeading
           eyebrow={site.timeline.eyebrow}
           heading={site.timeline.heading}
+          headingId="timeline-heading"
         />
 
         <div ref={ref} className="relative">

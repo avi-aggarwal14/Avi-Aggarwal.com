@@ -27,6 +27,7 @@ export function About() {
         <SectionHeading
           eyebrow={site.about.eyebrow}
           heading={site.about.heading}
+          headingId="about-heading"
         />
 
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">

@@ -44,6 +44,7 @@ export function Contact() {
 
         <TextReveal
           as="h2"
+          id="contact-heading"
           text={site.contact.heading}
           delay={0.06}
           className="font-display text-display-lg text-bone mt-8 block"

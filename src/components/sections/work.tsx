@@ -87,6 +87,7 @@ export function Work() {
         <SectionHeading
           eyebrow={site.work.eyebrow}
           heading={site.work.heading}
+          headingId="work-heading"
           aside={site.work.note}
         />
 

@@ -51,6 +51,7 @@ export function Capabilities() {
         <SectionHeading
           eyebrow={site.capabilities.eyebrow}
           heading={site.capabilities.heading}
+          headingId="capabilities-heading"
           aside={`${pad(site.capabilities.items.length)} disciplines`}
         />
 
