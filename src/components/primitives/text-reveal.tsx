@@ -14,6 +14,8 @@ type TextRevealProps = {
   /** Fire on mount instead of on scroll. Use for the hero. */
   immediate?: boolean;
   as?: "h1" | "h2" | "h3" | "p" | "span";
+  /** Forwarded to the rendered tag, so sections can be `aria-labelledby` it. */
+  id?: string;
 };
 
 /**
@@ -37,12 +39,17 @@ export function TextReveal({
   delay = 0,
   immediate = false,
   as: Tag = "span",
+  id,
 }: TextRevealProps) {
   const reduceMotion = useReducedMotion();
   const words = text.split(" ");
 
   if (reduceMotion) {
-    return <Tag className={className}>{text}</Tag>;
+    return (
+      <Tag className={className} id={id}>
+        {text}
+      </Tag>
+    );
   }
 
   const animationProps = immediate
@@ -50,7 +57,7 @@ export function TextReveal({
     : { whileInView: "visible", viewport: viewportOnce };
 
   return (
-    <Tag className={className}>
+    <Tag className={className} id={id}>
       <motion.span
         aria-label={text}
         className="inline"

@@ -9,6 +9,12 @@ type SectionHeadingProps = {
   eyebrow: string;
   /** The display-serif heading itself. */
   heading: string;
+  /**
+   * Id for the heading element. `<Section>` points its `aria-labelledby` at
+   * `${sectionId}-heading`, so passing the matching value here is what names
+   * the region in a screen reader's landmark list.
+   */
+  headingId?: string;
   /** Optional right-aligned aside — a count, a hint, a note. */
   aside?: string;
   className?: string;
@@ -26,6 +32,7 @@ type SectionHeadingProps = {
 export function SectionHeading({
   eyebrow,
   heading,
+  headingId,
   aside,
   className,
   as = "h2",
@@ -52,6 +59,7 @@ export function SectionHeading({
 
       <TextReveal
         as={as}
+        id={headingId}
         text={heading}
         delay={0.08}
         className="font-display text-display-md text-bone mt-5 block"
