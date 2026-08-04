@@ -46,7 +46,10 @@ const ICONS: Record<Capability["icon"], LucideIcon> = {
  */
 export function Capabilities() {
   return (
-    <Section id="capabilities">
+    <Section
+      id="capabilities"
+      paths={{ position: 1, intensity: "subtle", count: 24 }}
+    >
       <Shell>
         <SectionHeading
           eyebrow={site.capabilities.eyebrow}
