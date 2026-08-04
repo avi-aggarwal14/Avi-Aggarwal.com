@@ -39,6 +39,15 @@ import { Section, Shell } from "@/components/primitives/shell";
  * The preview is decorative: it is `aria-hidden`, and every row is a plain
  * anchor carrying the same information as text.
  */
+/**
+ * A project row has no real destination yet if its href is empty or a bare
+ * fragment. `"#"` in particular is not harmless — the browser treats it as a
+ * navigation to the top of the document.
+ */
+function isPlaceholderHref(href: string) {
+  return !href || href === "#";
+}
+
 export function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -139,15 +148,28 @@ export function Work() {
             <Reveal key={project.title} delay={index * 0.06} y={20}>
               <a
                 href={project.href}
+                // Placeholder projects carry href="#". Left alone, clicking one
+                // is a real navigation to the top of the document: the page
+                // slams back to the hero and every entrance animation replays,
+                // which reads as the site glitching or reloading. Until a real
+                // destination exists, the row is inert.
+                aria-disabled={isPlaceholderHref(project.href) || undefined}
+                onClick={(event) => {
+                  if (isPlaceholderHref(project.href)) event.preventDefault();
+                }}
                 onMouseEnter={(event) => handleEnter(index, event)}
                 onFocus={(event) => {
                   setHovered(index);
-                  // Keyboard users get no scroll from focus alone when a row
-                  // is only partly on screen. Bring it fully into view.
-                  event.currentTarget.scrollIntoView({
-                    block: "nearest",
-                    behavior: "smooth",
-                  });
+                  // Only pull the row into view for *keyboard* focus. Doing it
+                  // on every focus meant a plain mouse click also kicked off a
+                  // smooth scroll, which then fought whatever scrolling the
+                  // user was already doing.
+                  if (event.currentTarget.matches(":focus-visible")) {
+                    event.currentTarget.scrollIntoView({
+                      block: "nearest",
+                      behavior: "smooth",
+                    });
+                  }
                 }}
                 onBlur={() => setHovered(null)}
                 className="group border-bone/10 relative block cursor-pointer border-b"
