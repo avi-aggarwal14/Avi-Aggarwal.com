@@ -33,7 +33,13 @@ export function Contact() {
   }
 
   return (
-    <Section id="contact" className="pb-32 md:pb-44">
+    {/* The closing statement, so it gets the fullest treatment after the hero
+        — the most strokes and the slowest pass on the page. */}
+    <Section
+      id="contact"
+      className="pb-32 md:pb-44"
+      paths={{ position: 1, intensity: "present", count: 32, speed: 34 }}
+    >
       <Shell wide>
         <Reveal y={16}>
           <span className="eyebrow flex items-center gap-3">
