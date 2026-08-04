@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -9,12 +9,21 @@ import { SectionHeading } from "@/components/primitives/section-heading";
 import { Section, Shell } from "@/components/primitives/shell";
 
 /**
- * Selected work — the signature interaction on the site.
+ * A project row has no real destination yet if its href is empty or a bare
+ * fragment. `"#"` in particular is not harmless â€” the browser treats it as a
+ * navigation to the top of the document.
+ */
+function isPlaceholderHref(href: string) {
+  return !href || href === "#";
+}
+
+/**
+ * Selected work â€” the signature interaction on the site.
  *
  * Built on the 21st.dev "Project Showcase" (@jatin-yadav05): a list of rows
  * where hovering one floats a preview image that chases the cursor on a lerp,
  * so the image always trails slightly behind the pointer. That lag is the whole
- * trick — an image pinned exactly to the cursor feels stuck to the glass; one
+ * trick â€” an image pinned exactly to the cursor feels stuck to the glass; one
  * that eases toward it feels like it has weight.
  *
  * Changes from the source component:
@@ -39,15 +48,6 @@ import { Section, Shell } from "@/components/primitives/shell";
  * The preview is decorative: it is `aria-hidden`, and every row is a plain
  * anchor carrying the same information as text.
  */
-/**
- * A project row has no real destination yet if its href is empty or a bare
- * fragment. `"#"` in particular is not harmless — the browser treats it as a
- * navigation to the top of the document.
- */
-function isPlaceholderHref(href: string) {
-  return !href || href === "#";
-}
-
 export function Work() {
   const [hovered, setHovered] = useState<number | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -56,7 +56,7 @@ export function Work() {
   const frame = useRef<number | null>(null);
 
   // One rAF loop for the life of the component. Reads refs, writes a transform,
-  // never touches React state — so the list never re-renders while you move.
+  // never touches React state â€” so the list never re-renders while you move.
   useEffect(() => {
     const tick = () => {
       current.current.x = lerp(current.current.x, target.current.x, 0.12);
@@ -95,7 +95,7 @@ export function Work() {
     // preview, four hover beds and the densest type on the page.
     <Section
       id="work"
-      paths={{ position: -1, intensity: "whisper", count: 20, speed: 34 }}
+      paths={{ position: -1, intensity: "whisper", count: 14, speed: 34 }}
     >
       <Shell wide>
         <SectionHeading
@@ -224,7 +224,7 @@ export function Work() {
           ))}
         </div>
 
-        {/* Mobile note — the hover preview cannot exist on touch, so the
+        {/* Mobile note â€” the hover preview cannot exist on touch, so the
             section says so rather than silently doing nothing. */}
         <Reveal delay={0.1}>
           <p className="text-bone-faint mt-8 font-mono text-[11px] tracking-[0.16em] uppercase lg:hidden">
