@@ -35,7 +35,10 @@ export function Timeline() {
   const glowOpacity = useTransform(scrollYProgress, [0, 0.05, 1], [0, 1, 1]);
 
   return (
-    <Section id="timeline">
+    <Section
+      id="timeline"
+      paths={{ position: -1, intensity: "subtle", count: 24 }}
+    >
       <Shell>
         <SectionHeading
           eyebrow={site.timeline.eyebrow}
