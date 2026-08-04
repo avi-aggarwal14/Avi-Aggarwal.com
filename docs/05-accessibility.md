@@ -73,6 +73,17 @@ so nothing depends on reading it. It is never used for body copy.
   chronology survives with CSS off entirely.
 - Project preview images use `alt=""` — they are decorative duplicates of the
   link text beside them, and announcing them would be noise.
+- **Every section region is named.** Each `<section>` carries
+  `aria-labelledby` pointing at its own heading, so a landmark list reads
+  "Selected work, region" rather than five identical unnamed regions. All five
+  were verified to resolve to a real element.
+- **The ticker is readable.** The marquee duplicates its item list to make the
+  loop seamless, so it is `aria-hidden` — a screen reader would otherwise read
+  everything twice. The same items are rendered once more, visually hidden, as
+  a real `<ul>`, so the content is still available.
+- **List semantics are restored explicitly.** Tailwind's preflight sets
+  `list-style: none`, and Safari/VoiceOver drops list roles from any list
+  styled that way. `role="list"` is set on all six.
 
 ## Motion
 
