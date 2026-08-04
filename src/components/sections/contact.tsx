@@ -95,7 +95,10 @@ export function Contact() {
 
         {/* Socials */}
         <Reveal delay={0.28}>
-          <ul className="border-bone/10 mt-20 grid gap-px border-t sm:grid-cols-3">
+          <ul
+            role="list"
+            className="border-bone/10 mt-20 grid gap-px border-t sm:grid-cols-3"
+          >
             {site.contact.socials.map((social) => (
               <li key={social.label}>
                 <a
