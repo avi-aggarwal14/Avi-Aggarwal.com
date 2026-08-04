@@ -1,0 +1,29 @@
+# Normalise line endings.
+#
+# Without this, every commit made on Windows prints
+#   "warning: LF will be replaced by CRLF the next time Git touches it"
+# and the repository ends up storing whatever the contributor's editor
+# happened to produce. Text is stored as LF in the repo and checked out
+# with the platform's native endings.
+
+* text=auto eol=lf
+
+# Windows-only files keep CRLF.
+*.ps1  text eol=crlf
+*.cmd  text eol=crlf
+*.bat  text eol=crlf
+
+# Binaries must never be touched.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.mp4  binary
+*.pdf  binary
+
+# Keep generated lockfiles out of diffs and language stats.
+package-lock.json -diff linguist-generated
