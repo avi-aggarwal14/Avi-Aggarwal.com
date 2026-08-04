@@ -37,7 +37,7 @@ export function Timeline() {
   return (
     <Section
       id="timeline"
-      paths={{ position: -1, intensity: "subtle", count: 18 }}
+      paths={{ position: -1, intensity: "subtle", count: 26 }}
     >
       <Shell>
         <SectionHeading

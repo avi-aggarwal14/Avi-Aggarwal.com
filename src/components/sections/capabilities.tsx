@@ -48,7 +48,7 @@ export function Capabilities() {
   return (
     <Section
       id="capabilities"
-      paths={{ position: 1, intensity: "subtle", count: 18 }}
+      paths={{ position: 1, intensity: "subtle", count: 26 }}
     >
       <Shell>
         <SectionHeading

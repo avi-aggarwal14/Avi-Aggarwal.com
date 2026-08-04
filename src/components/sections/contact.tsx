@@ -38,7 +38,7 @@ export function Contact() {
     <Section
       id="contact"
       className="pb-32 md:pb-44"
-      paths={{ position: 1, intensity: "present", count: 22, speed: 34 }}
+      paths={{ position: 1, intensity: "present", count: 30, speed: 34 }}
     >
       <Shell wide>
         <Reveal y={16}>

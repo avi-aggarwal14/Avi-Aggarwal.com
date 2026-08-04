@@ -58,7 +58,7 @@ export function HeroBackground() {
       <FloatingPathsBackground
         position={-1}
         intensity="present"
-        count={24}
+        count={34}
         speed={30}
         className="absolute inset-0 h-full"
       />

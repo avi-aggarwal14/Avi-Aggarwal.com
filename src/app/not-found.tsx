@@ -16,7 +16,7 @@ export default function NotFound() {
     <main className="relative flex min-h-[100svh] items-center overflow-hidden">
       {/* The 404 gets the filaments too â€” a dead end should still look like
           part of the same site, not a fallback someone forgot to style. */}
-      <SectionPaths position={-1} intensity="present" count={20} speed={32} />
+      <SectionPaths position={-1} intensity="present" count={28} speed={32} />
 
       {/* One bloom, echoing the hero without repeating the whole stack. */}
       <div

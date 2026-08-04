@@ -95,7 +95,7 @@ export function Work() {
     // preview, four hover beds and the densest type on the page.
     <Section
       id="work"
-      paths={{ position: -1, intensity: "whisper", count: 14, speed: 34 }}
+      paths={{ position: -1, intensity: "whisper", count: 20, speed: 34 }}
     >
       <Shell wide>
         <SectionHeading
