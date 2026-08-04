@@ -200,8 +200,96 @@ every other rule on the page is 1px.
 | Skip link is first tabbable, target exists | Yes |
 | JSON-LD parses | Yes |
 
+## 13 · Fifth pass — the gold filaments
+
+A flowing line background added behind the hero, then extended to every band of
+the page. Full write-up in [16 · Gold filaments](./16-floating-paths.md).
+
+The interesting part was learning that sub-pixel strokes render at full colour
+across partial pixel coverage, so perceived brightness is
+`opacity × width` — which is why the first tuning pass, low on both, rendered
+half its strokes as literally nothing.
+
+## 14 · Sixth pass — bugs found in the wild
+
+Avi deployed to Vercel and reported two problems, with a screen recording.
+
+### Every word run together
+
+Confirmed straight off the video: "Thisisplaceholdercopysittingwhereyour…".
+
+`TextReveal` renders each word inside its own `inline-block` so the mask can
+clip it, and put the trailing space **inside** that inline-block. CSS strips
+white space at the end of a line box — and an inline-block is its own line box —
+so every separator was deleted. It affected every heading and paragraph on the
+site.
+
+Fixed by emitting the space as a sibling text node *between* the word spans. It
+has to stay a normal breaking space, not `&nbsp;`: it is the only wrap
+opportunity in the string, so a non-breaking one would stop paragraphs wrapping
+at all.
+
+`CharReveal` was already correct — it uses a literal U+00A0, which is right
+there because its wrap opportunity comes from `flex-wrap` between word groups.
+
+Worth recording: an earlier DOM check in this build had already surfaced this,
+reporting an accessible name of `"Ashortheadingaboutyou"`. It was dismissed as
+an `innerText` artifact. It was the bug, visible long before it was believed.
+
+### "The site glitches"
+
+Three separate causes, all mine:
+
+1. **Placeholder rows navigated to the top.** Every project carries
+   `href="#"`, which is a real navigation to the top of the document. Clicking
+   one slammed the page back to the hero and replayed every entrance animation.
+   Rows with no destination are now inert.
+
+2. **Sections scrolled past as empty panels.** `Reveal` triggered at
+   `amount: 0.25` with no margin, so a block only started fading in once a
+   quarter of it was already on screen. On a 6500px page — especially during a
+   long smooth-scroll from a nav link — section after section arrived blank.
+   Reveals now start 240px *before* an element enters.
+
+3. **The nav indicator stuck on the wrong section.** The scroll-spy sorted the
+   IntersectionObserver `entries`, which only contain sections whose
+   intersection *changed* in that callback, not all of them. The winner
+   depended on which section happened to report last. Replaced with a
+   deterministic probe line 35% down the viewport.
+
+Also removed a `scrollIntoView` that fired on *any* focus, so a plain mouse
+click on a work row kicked off a smooth scroll that fought whatever the user was
+already doing. It is now gated on `:focus-visible`.
+
+### A self-inflicted encoding bug
+
+Several of the fixes above were applied with PowerShell `Get-Content -Raw` /
+`Set-Content`. On PS 5.1 that reads UTF-8 as ANSI and writes it back
+double-encoded: every `—`, `·` and `→` in two docs turned to mojibake, and eight
+source files picked up a BOM.
+
+Caught by diffing before committing the docs, so those were restored from git
+and rewritten with a UTF-8-safe tool. The BOMs had already been committed and
+were stripped in a follow-up. **Text edits in this repo go through Node or the
+editor, never a PowerShell read-write round-trip.**
+
+## 15 · Seventh pass — prominence
+
+Avi asked for the filaments to be stronger and present everywhere, not just the
+hero.
+
+Prominence was bought with **opacity** (roughly tripled) and by widening the
+radial mask from `25% / 78%` to `45% / 96%` — not with stroke width, which
+moved barely at all. Wider strokes read as ribbons; the brief was thin. Two new
+instances were added, on the ticker band and the footer, taking the treatment to
+every band of the page.
+
 ## What is still not done
 
 - No automated accessibility audit (axe) and no Lighthouse run.
 - No real-device testing.
+- No visual confirmation from my side at any point — the Browser pane never
+  composited frames, so every check in this log is DOM- and console-based.
+  The two bugs in pass 14 are exactly the class of problem that a screenshot
+  would have caught in seconds.
 - The content is placeholder — by design, per the brief.
