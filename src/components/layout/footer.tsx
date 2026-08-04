@@ -3,6 +3,7 @@
 import { ArrowUp } from "lucide-react";
 import { site } from "@/content/site";
 import { Shell } from "@/components/primitives/shell";
+import { SectionPaths } from "@/components/ui/floating-paths";
 
 /**
  * Footer.
@@ -20,8 +21,11 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-bone/10 border-t py-12">
-      <Shell wide>
+    <footer className="border-bone/10 relative overflow-hidden border-t py-12">
+      {/* Carries the treatment all the way to the last pixel of the page. */}
+      <SectionPaths position={-1} intensity="subtle" count={14} speed={30} />
+
+      <Shell wide className="relative z-10">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <span aria-hidden className="bg-accent h-1.5 w-1.5 rounded-full" />
