@@ -1,5 +1,6 @@
 import { Nav } from '@/components/Nav'
 import { BentoGrid } from '@/components/home/BentoGrid'
+import { IntroMotion } from '@/components/home/IntroMotion'
 
 /**
  * §1 — the homepage is a switchboard, not a scroll. Nav + bento fill exactly
@@ -8,8 +9,10 @@ import { BentoGrid } from '@/components/home/BentoGrid'
 export default function Home() {
   return (
     <main id="top">
-      <Nav />
-      <BentoGrid />
+      <IntroMotion>
+        <Nav />
+        <BentoGrid />
+      </IntroMotion>
     </main>
   )
 }
