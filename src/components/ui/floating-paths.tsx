@@ -74,6 +74,7 @@ export function FloatingPathsBackground({
   intensity = "subtle",
   count = 36,
   speed = 26,
+  edgeFade = true,
 }: {
   /** Flow direction and skew. Negative and positive mirror each other. */
   position: number;
@@ -85,6 +86,13 @@ export function FloatingPathsBackground({
   count?: number;
   /** Seconds for one full pass. Higher is slower and more expensive-looking. */
   speed?: number;
+  /**
+   * Paint the static ink edge-fade over the strokes. On by default — every
+   * plain band sits on the ink token, so the fade is invisible as a surface.
+   * The HERO disables it: its filaments sit above blooms that the opaque fade
+   * would swallow, and the hero's own vignette already softens its edges.
+   */
+  edgeFade?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
@@ -121,20 +129,12 @@ export function FloatingPathsBackground({
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 overflow-hidden"
-        style={{
-          // Fade the strokes out at every edge so they dissolve into the page
-          // instead of being guillotined by the section boundary.
-          //
-          // The mask is a prominence control in its own right: the first pass
-          // held full opacity only to 25% and was fully transparent by 78%,
-          // which meant most of every stroke was being faded away before it
-          // was ever seen. Widening it to 45% / 96% keeps far more of each
-          // sweep at full strength while still avoiding a hard edge.
-          maskImage:
-            "radial-gradient(ellipse 110% 95% at 50% 50%, black 45%, transparent 96%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 110% 95% at 50% 50%, black 45%, transparent 96%)",
-        }}
+        // translateZ(0) pins this subtree to its own stable compositor layer.
+        // Without it, Chromium re-decides layerization while the strokes
+        // animate, and on a machine under graphics load that re-decision can
+        // drop the whole SVG for a frame — the "waves flash" in Avi's
+        // recording.
+        style={{ transform: "translateZ(0)" }}
       >
         <svg
           // text-accent, not a hard-coded gold: the strokes inherit the single
@@ -175,6 +175,23 @@ export function FloatingPathsBackground({
             />
           ))}
         </svg>
+
+        {/* Static edge-fade overlay — replaces the mask-image that used to
+            sit on the container. A masked container whose children repaint
+            every frame (stroke-dashoffset) forces the compositor to
+            re-rasterize the full masked region continuously; this overlay is
+            painted once and composited for free. Fading TO the ink token is
+            visually identical to masking to transparent because every band on
+            the site sits on that same ink. */}
+        {edgeFade ? (
+          <div
+            className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 110% 95% at 50% 50%, transparent 45%, var(--ink) 96%)",
+          }}
+          />
+        ) : null}
       </div>
       {children}
     </div>
