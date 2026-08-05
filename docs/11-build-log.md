@@ -332,6 +332,54 @@ Measured against the live deployment:
 | Rotator blank frames over 12s | 0, min opacity 0.84 |
 | Console errors | None |
 
+## 17 · The flicker that survived — a compositor bug, not a style bug
+
+The glitch persisted after pass 16. Frame-by-frame analysis of the second
+recording (ffmpeg scene detection, then every native frame around each spike)
+finally characterised it exactly:
+
+- at t≈3.45s the **entire hero content** vanishes for one frame — waves and nav
+  stay — and returns with the rotator mid-swap;
+- at t≈6.2s the **waves** vanish for a frame and return.
+
+Meanwhile a probe sampling the live site at rAF rate for 20 seconds — computed
+opacity of the hero wrapper, every rotator letter, the SVG and every stroke —
+found **zero dips in 390 samples**. The DOM never blanks. Both symptoms are
+single-frame **GPU layer drops**: Chromium re-deciding layerization mid-frame
+on a machine under graphics load (the recording itself runs at 13fps), and
+briefly rendering without whichever layer it is rebuilding.
+
+The page was giving it constant reasons to re-layerize:
+
+| Source | Why it churns layers |
+| --- | --- |
+| Rotator letters animating `filter: blur()` | Every animating filter promotes its element to its own GPU layer — a swap created and destroyed a dozen layers at once, twice a cycle. The t≈3.45 flash lands exactly on a swap. |
+| Blooms: 32–36rem divs under `blur(120–140px)` with animated opacity | Two enormous filter surfaces re-rasterized as their opacity breathes. |
+| `mask-image` on the filament container | Children repaint every frame (`stroke-dashoffset`), so the compositor re-rasterizes the whole masked region continuously. |
+| Grain pseudo-element at `inset: -50%` | A fixed layer four times the viewport, for a repeating tile that never needed it. |
+
+### The fix — remove the reasons
+
+- Rotator letters animate **opacity and transform only**. No filters.
+- Blooms are **pure radial gradients** — a gradient fading to transparent is
+  already soft; the blur on top was almost entirely wasted GPU work.
+- The filament mask became a **static ink-fade overlay** painted above the
+  strokes (visually identical on this ink background), and the SVG container is
+  pinned to its own layer with `translateZ(0)` so its layerization never
+  changes again.
+- Grain layer reduced to viewport size. Hero filament count 34 → 26.
+
+### Honesty about verification
+
+This class of bug depends on the viewer's GPU and driver. It does not reproduce
+in headless Chrome — before *or* after the fix — so the verification here is
+removal of every identified churn source plus confirmation that nothing else
+regressed (SSR still clean, rotator still gapless over 12s, zero console
+errors, screenshots visually unchanged). If any flash survives on the affected
+machine, the next dial is reducing filament counts further — and the honest
+last resort is `chrome://gpu` diagnostics, because at that point the page is
+fighting the driver, not the CSS.
+
 ## What is still not done
 
 - No automated accessibility audit (axe) and no Lighthouse run.
