@@ -17,16 +17,10 @@ import { Tile } from './Tile'
 export function BentoGrid() {
   const t = site.tiles
   return (
-    <div
-      className="bento-root grid h-[calc(100dvh-var(--nav-h))] w-full"
-      style={{ gridTemplateColumns: '38fr 62fr' }}
-    >
+    <div className="bento-root grid h-[calc(100dvh-var(--nav-h))] w-full">
       <IntroPanel />
 
-      <div
-        className="bento-row grid border-l border-line"
-        style={{ gridTemplateColumns: '58fr 42fr' }}
-      >
+      <div className="bento-row bento-row-a grid border-l border-line">
         <Tile
           label={t.pastWork.label}
           href={t.pastWork.href}
@@ -37,10 +31,7 @@ export function BentoGrid() {
           preloadImage
         />
 
-        <div
-          className="bento-col grid border-l border-line"
-          style={{ gridTemplateRows: '50fr 50fr' }}
-        >
+        <div className="bento-col bento-col-a grid border-l border-line">
           <Tile
             label={t.currentWork.label}
             href={t.currentWork.href}
@@ -50,10 +41,7 @@ export function BentoGrid() {
             variant="accent"
           />
 
-          <div
-            className="bento-row grid border-t border-line"
-            style={{ gridTemplateColumns: '56fr 44fr' }}
-          >
+          <div className="bento-row bento-row-b grid border-t border-line">
             <Tile
               label={t.founderStory.label}
               href={t.founderStory.href}

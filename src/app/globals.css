@@ -85,6 +85,16 @@ html { background: var(--color-bg); color: var(--color-fg); -webkit-font-smoothi
   color: var(--color-fg-muted);
 }
 
+/* ── §7.1 base tracks ──
+   In the STYLESHEET, not inline styles: an inline `style` attribute outranks
+   every class rule, so the :has() hover states below could never apply. The
+   step-5 gate caught exactly that — zero track movement on hover. */
+
+.bento-root   { grid-template-columns: 38fr 62fr; }   /* intro | right   */
+.bento-row-a  { grid-template-columns: 58fr 42fr; }   /* past | stack    */
+.bento-col-a  { grid-template-rows:    50fr 50fr; }   /* current | row   */
+.bento-row-b  { grid-template-columns: 56fr 44fr; }   /* founder | mail  */
+
 /* ── §7.3 Hover-expand — pure CSS, zero JS ──
    Track counts identical between states, all tracks fr — the formal
    interpolation constraint. One `auto` silently kills the transition. */
