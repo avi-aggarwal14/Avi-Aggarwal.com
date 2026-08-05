@@ -1,15 +1,24 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   AVI AGGARWAL — DESIGN TOKENS
+   AVI AGGARWAL — DESIGN TOKENS · v2
    -----------------------------------------------------------------------------
-   Direction: editorial dark minimalism, motion-driven.
-   Base is a monochrome ink/bone scale; exactly ONE chromatic accent carries
-   every highlight on the site. To re-skin the whole thing, change --accent.
+   Editorial dark minimalism, motion-driven, one metallic accent.
+   Rebuilt from scratch with every lesson from v1 baked in:
+
+     · nothing above the fold is ever hidden by JavaScript
+     · section reveals are CSS scroll-driven — content is visible by DEFAULT
+       and browsers without support simply show it (no JS-hidden fallback)
+     · no animated filters, no mask-image over animating content, no layout
+       properties in any animation — transform and opacity only
+     · continuously animating surfaces are pinned to their own compositor layer
+
+   Base is a warm monochrome ink/bone scale; exactly ONE chromatic accent
+   carries every highlight. To re-skin the site, change --accent.
    ============================================================================= */
 
 :root {
-  /* --- Core surfaces: a warm-leaning near-black, never pure #000 --------- */
+  /* --- Core surfaces: warm-leaning near-black, never pure #000 ----------- */
   --ink: #08080a;
   --ink-raised: #0f0f13;
   --ink-overlay: #16161b;
@@ -22,15 +31,15 @@
   /* --- The single accent. Change this one line to re-skin the site. ------ */
   --accent: #d6b77c;
   --accent-soft: rgba(214, 183, 124, 0.14);
+  --accent-faint: rgba(214, 183, 124, 0.05);
 
   /* --- Hairlines --------------------------------------------------------- */
   --line: rgba(243, 239, 231, 0.1);
   --line-strong: rgba(243, 239, 231, 0.2);
 
   /* --- shadcn / 21st.dev compatibility aliases ---------------------------
-     21st.dev components are authored against these names (bg-background,
-     text-muted-foreground, border-border, bg-secondary …). Mapping them here
-     means catalogue components drop in already wearing our palette. */
+     Catalogue components are authored against these names; mapping them here
+     means they drop in already wearing this palette. */
   --background: var(--ink);
   --foreground: var(--bone);
   --card: var(--ink-raised);
@@ -65,15 +74,14 @@
   --shell: 82rem;
 
   /* --- Z-INDEX SCALE -----------------------------------------------------
-     A declared ladder, so no component ever invents a z-9999. Every fixed or
-     absolutely-positioned element on the site uses one of these six rungs.
+     A declared ladder, so no component ever invents a z-9999.
        0  .. in-flow content
-       10 .. section-local overlays (hover beds, gradients, sticky headings)
-       20 .. hero foreground content above its own background layers
+       10 .. section-local overlays (hover beds, gradients)
+       20 .. hero foreground above its own background layers
        30 .. floating page furniture (scroll progress, scroll cue)
        40 .. navigation
        50 .. cursor-following previews / modals
-       60 .. the global grain, which must sit above absolutely everything */
+       60 .. the global grain, above absolutely everything */
   --z-base: 0;
   --z-local: 10;
   --z-hero: 20;
@@ -111,11 +119,10 @@
   --color-bone-muted: var(--bone-muted);
   --color-bone-faint: var(--bone-faint);
 
-  /* next/font exposes --font-dm-sans etc. on <html> (see layout.tsx). These
-     are referenced directly rather than via an intermediate --font-sans:
-     `@theme inline` INLINES a value into the generated utilities instead of
-     emitting it as a custom property, so `var(--font-sans)` would resolve to
-     nothing in the base rules below. */
+  /* next/font exposes these on <html>. Referenced directly, never through an
+     intermediate token: `@theme inline` INLINES values into utilities instead
+     of emitting custom properties, so var(--font-sans) would be empty in the
+     base rules below. (Cost a whole debugging session in v1.) */
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
@@ -135,17 +142,9 @@
 }
 
 html {
-  /* NO `scroll-behavior: smooth`.
-
-     It reads as a nice touch and is actively harmful on a page this tall.
-     Clicking "Contact" from the top animates a ~5500px journey lasting several
-     seconds, and every section it flies past is caught mid-reveal — so the
-     visitor watches a stack of empty dark panels stream by and concludes the
-     site is broken or still loading. Landing instantly is both faster and
-     calmer. The scroll-driven animations still animate on ordinary wheel and
-     trackpad scrolling, which is where they belong. */
-
-  /* Anchor targets clear the fixed navigation. */
+  /* NO scroll-behavior: smooth. Animating a 5500px journey on a nav click
+     parades half-revealed sections past the visitor; landing instantly is
+     faster and calmer. Anchor targets clear the fixed navigation. */
   scroll-padding-top: 6rem;
   -webkit-text-size-adjust: 100%;
 }
@@ -159,7 +158,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* Belt and braces against a stray wide child causing sideways scroll. */
   overflow-x: hidden;
 }
 
@@ -168,14 +166,12 @@ body {
   color: var(--ink);
 }
 
-/* Visible, on-brand focus ring — never remove the outline outright. */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-/* Skip link: invisible until focused. */
 .skip-link {
   position: absolute;
   left: 1rem;
@@ -204,9 +200,19 @@ body {
   line-height: 0.95;
 }
 
-/* Fluid display sizes — no media queries needed. */
+/* The italic voice — reserved for single accented words: the rotating role,
+   a hovered title, an aside. Sparingly used, it is the most luxurious glyph
+   set on the page; everywhere, it would be perfume in the soup. */
+.font-display-italic {
+  font-family: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+
 .text-display-xl {
-  font-size: clamp(3.25rem, 13vw, 12rem);
+  font-size: clamp(3.25rem, 13vw, 12.5rem);
 }
 .text-display-lg {
   font-size: clamp(2.75rem, 8vw, 6.5rem);
@@ -215,32 +221,40 @@ body {
   font-size: clamp(2rem, 5vw, 3.75rem);
 }
 
-/* The rotating role line in the hero.
-   Fluid rather than a fixed md: step, because the words come from the content
-   file and are not known in advance. The rotator sets `whitespace-nowrap` (it
-   has to — a word that re-wraps mid-rotation looks broken), so a fixed size
-   would let a long role run off the right edge on a narrow screen. Sizing it
-   against the viewport means any reasonable entry fits. */
-.text-rotator {
-  font-size: clamp(1.65rem, 7vw, 3rem);
-}
-
-/* Headings balance across lines instead of leaving one orphaned word.
-   Cheap, supported everywhere current, and one of the highest-yield
-   typographic details available on a page built out of large headlines. */
+/* Headings balance across lines instead of orphaning their last word. */
 .text-display-xl,
 .text-display-lg,
 .text-display-md {
   text-wrap: balance;
 }
 
-/* Small-caps eyebrow used above every section heading. */
+/* The rotating role line. Fluid because the words come from the content file:
+   the rotator must not wrap mid-swap (whitespace-nowrap), so a fixed size
+   would let a long role run off a narrow screen. */
+.text-rotator {
+  font-size: clamp(1.65rem, 7vw, 3.1rem);
+}
+
+/* Mono micro-label above every section heading. */
 .eyebrow {
   font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
   font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--bone-muted);
+}
+
+/* Ghosted section numeral — the oversized serif index that sits behind each
+   section masthead. Pure ornament, so it is always aria-hidden and clipped
+   from touch/selection. */
+.ghost-numeral {
+  font-family: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  font-size: clamp(5rem, 11vw, 10rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(243, 239, 231, 0.08);
+  user-select: none;
+  pointer-events: none;
 }
 
 .prose-measure {
@@ -251,13 +265,11 @@ body {
    TEXTURE
    ============================================================================= */
 
-/* Fixed film grain over the whole document. Kills banding on the dark
-   gradients and is the single cheapest "expensive" cue there is. */
+/* Film grain over the whole document. Viewport-sized — the tile repeats, so
+   oversizing the layer would only cost compositor memory. */
 .grain::after {
   content: "";
   position: fixed;
-  /* inset: 0, not -50% — the tile repeats, so oversizing the layer only
-     quadrupled its compositor memory for nothing. */
   inset: 0;
   z-index: 60;
   pointer-events: none;
@@ -267,7 +279,7 @@ body {
   background-size: 180px 180px;
 }
 
-/* Hairline rule that fades at both ends — used between sections. */
+/* Hairline that fades at both ends. */
 .rule {
   height: 1px;
   border: 0;
@@ -280,23 +292,35 @@ body {
   );
 }
 
-/* =============================================================================
-   MOTION UTILITIES
-   ============================================================================= */
+/* Hairline kissed with gold at its origin — used under section mastheads.
+   The accent enters, whispers, and hands over to bone. */
+.rule-gilded {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    rgba(214, 183, 124, 0.35) 12%,
+    var(--line-strong) 30%,
+    var(--line-strong) 82%,
+    transparent
+  );
+}
 
 /* =============================================================================
-   ABOVE-THE-FOLD ENTRANCE — CSS, NOT JAVASCRIPT
+   ENTRANCES
    -----------------------------------------------------------------------------
-   framer-motion's `initial` state is written into the server-rendered HTML as
-   an inline `opacity:0`. For content below the fold that is fine — nobody is
-   looking at it before hydration. For the HERO it was the single worst bug on
-   the site: the first paint contained 76 invisible elements, so a visitor got a
-   black page with gold waves and no words on it until the JS bundle had
-   downloaded, React had hydrated, AND a 2.1s staggered timeline had run.
+   Two systems, chosen by position on the page:
 
-   These keyframes replace that for the hero only. CSS animations start at first
-   paint, so the hero is never waiting on JavaScript, and the whole entrance now
-   completes in under a second.
+   1. HERO — plain CSS keyframes. They run at first paint, need no JavaScript,
+      and the server HTML contains zero hidden elements above the fold.
+
+   2. EVERYTHING BELOW — CSS scroll-driven animations (animation-timeline:
+      view()). Content is visible by DEFAULT; the animation only exists inside
+      the @supports block, so a browser without support (or with JS disabled,
+      or mid-hydration) simply shows the content. There is no state in which
+      a section can be stuck invisible. This retires the v1 framer reveal
+      system and the entire class of "blank section" bugs it produced.
    ============================================================================= */
 
 @keyframes hero-rise {
@@ -310,8 +334,6 @@ body {
   }
 }
 
-/* Per-character rise out of an overflow-hidden mask, matching the look the
-   framer version had. */
 @keyframes hero-char {
   from {
     opacity: 0;
@@ -331,6 +353,50 @@ body {
   display: inline-block;
   animation: hero-char 0.85s var(--ease-out-expo) backwards;
 }
+
+/* Scroll-driven reveal. Scrubbed by the element's own passage through the
+   viewport, which reads as the page breathing with the reader rather than
+   firing timers at them. */
+@supports (animation-timeline: view()) {
+  @keyframes reveal-rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal {
+    animation: reveal-rise both var(--ease-out-quint);
+    animation-timeline: view();
+    /* Fully revealed once the element's top clears the bottom 38% of the
+       viewport — early enough that fast scrolling never outruns it. */
+    animation-range: entry 0% entry 85%;
+  }
+
+  /* Masked heading rise — the whole line lifts out of a clipping wrapper. */
+  @keyframes reveal-mask {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .reveal-mask {
+    animation: reveal-mask both var(--ease-out-expo);
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+}
+
+/* =============================================================================
+   AMBIENT LOOPS
+   ============================================================================= */
 
 @keyframes marquee-x {
   from {
@@ -365,6 +431,28 @@ body {
   }
 }
 
+/* Bloom breathing — pure opacity on a gradient-only layer. No filters. */
+@keyframes bloom-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* The hero's diagonal glint. Transform only — v1 animated `left`, which is a
+   layout property and forced reflow on every frame of a 16s loop. */
+@keyframes sweep-x {
+  0% {
+    transform: translateX(-60%) rotate(-14deg);
+  }
+  100% {
+    transform: translateX(60%) rotate(-14deg);
+  }
+}
+
 .animate-marquee {
   animation: marquee-x var(--marquee-duration, 40s) linear infinite;
 }
@@ -374,10 +462,17 @@ body {
 .animate-scroll-cue {
   animation: scroll-cue 2.4s var(--ease-in-out-soft) infinite;
 }
+.animate-bloom {
+  animation: bloom-breathe 9s var(--ease-in-out-soft) infinite;
+}
+.animate-sweep {
+  animation: sweep-x 7s var(--ease-in-out-soft) infinite;
+  animation-delay: 4s;
+}
 
 /* =============================================================================
    ACCESSIBILITY — REDUCED MOTION
-   Anything decorative stops. Nothing that carries meaning disappears.
+   Decorative motion stops; nothing that carries meaning disappears.
    ============================================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -390,24 +485,32 @@ body {
     scroll-behavior: auto !important;
   }
 
-  /* The blanket rule above is wrong for looping animations: collapsing the
-     duration doesn't stop them, it fast-forwards them to their end state.
-     These three need to be switched off outright and left at their start. */
+  /* Looping animations must be switched OFF, not fast-forwarded — collapsing
+     their duration snaps them to arbitrary mid-states. */
   .animate-marquee {
     animation: none !important;
     transform: translateX(0) !important;
   }
   .animate-scroll-cue,
-  .animate-pulse-soft {
+  .animate-pulse-soft,
+  .animate-bloom {
     animation: none !important;
     opacity: 0.6 !important;
+  }
+  .animate-sweep {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Scroll-driven reveals: show everything, still. */
+  .reveal,
+  .reveal-mask {
+    animation: none !important;
   }
 }
 
 /* =============================================================================
    ACCESSIBILITY — INCREASED CONTRAST
-   Some readers ask the OS for more contrast. Honour it by lifting the muted
-   greys and firming up every hairline, rather than ignoring the request.
    ============================================================================= */
 
 @media (prefers-contrast: more) {
@@ -421,9 +524,6 @@ body {
 
 /* =============================================================================
    PRINT
-   A portfolio gets printed and saved to PDF more often than you would think —
-   usually by someone filing it alongside an application. Give them something
-   readable rather than forty pages of black ink.
    ============================================================================= */
 
 @media print {
@@ -440,21 +540,18 @@ body {
     color: #111 !important;
   }
 
-  /* Drop everything that only exists on a screen. */
   .grain::after,
   header,
   footer a[href="#top"] {
     display: none !important;
   }
 
-  /* Sections should not be split down the middle by a page break. */
   section {
     break-inside: avoid;
     padding: 1.5rem 0 !important;
     min-height: 0 !important;
   }
 
-  /* Print the destination of every link — a printed URL-less link is useless. */
   a[href^="http"]::after,
   a[href^="mailto"]::after {
     content: " (" attr(href) ")";
