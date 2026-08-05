@@ -54,20 +54,25 @@ export function HeroBackground() {
       />
 
       {/* 2 — ambient blooms */}
+      {/* The blooms carry NO filter: blur — a radial gradient fading to
+          transparent is already soft, and a 120-140px blur filter on a 32rem
+          element is an enormous GPU surface re-rasterized while its opacity
+          animates. Dropping the filters removes two of the biggest compositor
+          layers on the page at no visible cost. */}
       <motion.div
-        className="absolute -top-40 -right-32 h-[32rem] w-[32rem] rounded-full blur-[120px]"
+        className="absolute -top-40 -right-32 h-[36rem] w-[36rem] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(214,183,124,0.16) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(214,183,124,0.14) 0%, rgba(214,183,124,0.05) 40%, transparent 72%)",
         }}
         animate={reduceMotion ? undefined : { opacity: [0.55, 0.95, 0.55] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute -bottom-48 -left-40 h-[36rem] w-[36rem] rounded-full blur-[140px]"
+        className="absolute -bottom-48 -left-40 h-[40rem] w-[40rem] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(243,239,231,0.09) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(243,239,231,0.08) 0%, rgba(243,239,231,0.03) 40%, transparent 72%)",
         }}
         animate={reduceMotion ? undefined : { opacity: [0.4, 0.8, 0.4] }}
         transition={{
@@ -98,8 +103,9 @@ export function HeroBackground() {
       <FloatingPathsBackground
         position={-1}
         intensity="present"
-        count={34}
+        count={26}
         speed={30}
+        edgeFade={false}
         className="absolute inset-0 h-full"
       />
 

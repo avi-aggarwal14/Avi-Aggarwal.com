@@ -21,10 +21,10 @@ export default function NotFound() {
       {/* One bloom, echoing the hero without repeating the whole stack. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full blur-[130px]"
+        className="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(214,183,124,0.14) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(214,183,124,0.12) 0%, rgba(214,183,124,0.04) 40%, transparent 72%)",
         }}
       />
 

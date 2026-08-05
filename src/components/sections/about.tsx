@@ -145,10 +145,10 @@ function PortraitPlaceholder() {
       />
       <div
         aria-hidden
-        className="absolute h-56 w-56 rounded-full blur-[80px]"
+        className="absolute h-64 w-64 rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(214,183,124,0.22) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(214,183,124,0.18) 0%, rgba(214,183,124,0.06) 40%, transparent 72%)",
         }}
       />
       <p className="text-bone-faint relative max-w-[16rem] text-center font-mono text-[11px] leading-relaxed tracking-[0.18em] uppercase">
