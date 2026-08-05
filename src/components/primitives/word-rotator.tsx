@@ -94,6 +94,14 @@ export function WordRotator({
           animate="visible"
           exit="exit"
         >
+          {/* Letters animate OPACITY AND TRANSFORM ONLY — deliberately no
+              blur filter. Each animating filter promotes its element to its
+              own GPU layer, so a swap was creating and destroying a dozen
+              layers at once, twice per cycle. On machines under graphics load
+              Chromium re-layerizes mid-frame and the whole hero flashes for a
+              frame — visible in Avi's screen recordings, timed exactly to
+              the swap. Opacity and transform animate on existing layers and
+              cause no re-layerization. */}
           {current.split("").map((letter, i) => (
             <motion.span
               key={`${index}-${i}`}
@@ -101,14 +109,13 @@ export function WordRotator({
               custom={i}
               className="inline-block"
               variants={{
-                hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
+                hidden: { opacity: 0, y: 16 },
                 visible: (n: number) => ({
                   opacity: 1,
                   y: 0,
-                  filter: "blur(0px)",
                   transition: {
                     delay: n * 0.028,
-                    duration: 0.42,
+                    duration: 0.4,
                     ease: EASE.outQuint,
                   },
                 }),
@@ -117,9 +124,8 @@ export function WordRotator({
                 // rather than a slow unravelling with a hole at the end of it.
                 exit: {
                   opacity: 0,
-                  y: -14,
-                  filter: "blur(6px)",
-                  transition: { duration: 0.28, ease: EASE.inOutSoft },
+                  y: -12,
+                  transition: { duration: 0.26, ease: EASE.inOutSoft },
                 },
               }}
             >
