@@ -207,6 +207,49 @@ export const site = {
     ] satisfies Capability[],
   },
 
+  /* --- Gallery ------------------------------------------------------------
+     The drag carousel between Capabilities and Timeline. Frames can be
+     process shots, details, stills — texture rather than argument. Replace
+     the Unsplash placeholders with files in /public/gallery/. 5-8 frames
+     keeps the rail worth dragging. */
+  gallery: {
+    eyebrow: "Gallery",
+    heading: "Between the work",
+    note: "Drag sideways",
+    frames: [
+      {
+        src: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?q=80&w=1200&auto=format&fit=crop",
+        caption: "Placeholder frame — a detail from a project",
+        meta: "01",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1200&auto=format&fit=crop",
+        caption: "Placeholder frame — process, not polish",
+        meta: "02",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1200&auto=format&fit=crop",
+        caption: "Placeholder frame — something in progress",
+        meta: "03",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1620503374956-c942862f0372?q=80&w=1200&auto=format&fit=crop",
+        caption: "Placeholder frame — a texture worth keeping",
+        meta: "04",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1614850715649-1d0106293bd1?q=80&w=1200&auto=format&fit=crop",
+        caption: "Placeholder frame — the desk, honestly",
+        meta: "05",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1200&auto=format&fit=crop",
+        caption: "Placeholder frame — an ending",
+        meta: "06",
+      },
+    ],
+  },
+
   /* --- Timeline ---------------------------------------------------------- */
   timeline: {
     eyebrow: "Timeline",
