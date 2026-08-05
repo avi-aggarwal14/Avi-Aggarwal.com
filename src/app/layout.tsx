@@ -3,8 +3,10 @@ import { DM_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { site } from "@/content/site";
 import "./globals.css";
 
-/* Three families, three jobs. Loaded as CSS variables so globals.css owns the
-   mapping and no component ever names a font directly. */
+/* Three families, three jobs — plus the serif's italic, which is the luxury
+   voice reserved for single accented words (the rotating role, a hovered
+   title). Loaded as CSS variables so globals.css owns the mapping and no
+   component ever names a font directly. */
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -16,6 +18,7 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   subsets: ["latin"],
   weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -65,9 +68,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    // Font variables go on <html>, not <body>: Tailwind's font-* utilities
-    // resolve them, and putting them at the document root means they are in
-    // scope for every element rather than only body's descendants.
+    // Font variables live on <html> so they are in scope for every element,
+    // including portals and the 404.
     <html
       lang="en"
       className={`dark ${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
