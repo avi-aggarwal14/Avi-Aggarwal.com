@@ -3,12 +3,8 @@ import { cn } from "@/lib/utils";
 import { SectionPaths, type PathIntensity } from "@/components/ui/floating-paths";
 
 /**
- * The one container width used everywhere on the site.
- *
- * Mixing `max-w-6xl` in one section and `max-w-7xl` in the next is one of the
- * quietest ways to make a layout feel unresolved — the eye notices that the
- * left edge moves even when the reader could not tell you why. Every section
- * renders inside this.
+ * The one container width used everywhere on the site. Mixing max-widths
+ * between sections is the quietest way to make a layout feel unresolved.
  */
 export function Shell({
   children,
@@ -17,7 +13,7 @@ export function Shell({
 }: {
   children: ReactNode;
   className?: string;
-  /** Opt out to the full 82rem for the hero and the work list. */
+  /** Opt up to the full 82rem for the hero and the work list. */
   wide?: boolean;
 }) {
   return (
@@ -35,7 +31,7 @@ export function Shell({
 
 export type SectionPathConfig = {
   /** Flow direction. Alternate the sign between sections so the eye is led
-   *  across the page rather than dragged the same way six times. */
+   *  across the page rather than dragged the same way every time. */
   position: number;
   intensity?: PathIntensity;
   count?: number;
@@ -43,20 +39,35 @@ export type SectionPathConfig = {
 };
 
 /**
- * Vertical rhythm between sections. One scale, applied consistently, so the
- * page breathes at the same rate from top to bottom.
+ * Gold washes — the warm light that stops a band reading as flat black.
  *
- * `aria-labelledby` points at the section's own heading, which is what lets a
- * screen reader's landmark list read "Selected work, region" rather than six
- * identical unnamed regions. The heading ids are derived from the section id,
- * so they stay in sync automatically.
+ * Each is a static, very low-alpha champagne gradient painted behind the
+ * filaments. Static means composited once and free forever; low-alpha means
+ * body text on top never drops below AA. The positions alternate down the
+ * page so the light appears to travel with the reader.
+ */
+const WASHES = {
+  tl: "radial-gradient(ellipse 60% 55% at 12% 0%, rgba(214,183,124,0.09), transparent 62%)",
+  tr: "radial-gradient(ellipse 60% 55% at 88% 0%, rgba(214,183,124,0.09), transparent 62%)",
+  bl: "radial-gradient(ellipse 65% 60% at 10% 100%, rgba(214,183,124,0.08), transparent 62%)",
+  br: "radial-gradient(ellipse 65% 60% at 90% 100%, rgba(214,183,124,0.08), transparent 62%)",
+  top: "linear-gradient(to bottom, rgba(214,183,124,0.055), transparent 34%)",
+  bottom: "linear-gradient(to top, rgba(214,183,124,0.055), transparent 34%)",
+} as const;
+
+export type SectionWash = keyof typeof WASHES;
+
+/**
+ * Vertical rhythm between sections — one scale, applied consistently.
  *
- * Passing `paths` lays the gold filament backdrop behind the section. It is
- * handled here rather than in each section for two reasons: every section then
- * gets identical stacking behaviour, and the content wrapper below is
- * mandatory — an absolutely-positioned sibling paints *above* in-flow content
- * regardless of source order, so without `relative z-10` on the children the
- * strokes would be drawn over the type instead of behind it.
+ * `aria-labelledby` points at the section's own heading (`${id}-heading` by
+ * convention), so a screen reader's landmark list reads real names.
+ *
+ * `paths` lays the gold filament backdrop behind the band; `wash` adds the
+ * gold gradient light. Both are handled here so every section gets identical
+ * stacking: backdrop at z-0, content lifted to z-10 — an absolutely
+ * positioned sibling otherwise paints above in-flow content regardless of
+ * source order.
  */
 export function Section({
   children,
@@ -64,21 +75,31 @@ export function Section({
   className,
   labelledBy,
   paths,
+  wash,
 }: {
   children: ReactNode;
   id?: string;
   className?: string;
-  /** Id of the heading that names this section. Defaults to `${id}-heading`. */
   labelledBy?: string;
-  /** Gold filament backdrop. Omit for no paths. */
+  /** Gold filament backdrop. Omit for none. */
   paths?: SectionPathConfig;
+  /** Gold gradient wash. Omit for plain ink. */
+  wash?: SectionWash;
 }) {
   return (
     <section
       id={id}
       aria-labelledby={labelledBy ?? (id ? `${id}-heading` : undefined)}
-      className={cn("relative scroll-mt-24 py-24 md:py-36", className)}
+      className={cn("relative scroll-mt-24 overflow-hidden py-24 md:py-36", className)}
     >
+      {wash ? (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{ background: WASHES[wash], zIndex: 0 }}
+        />
+      ) : null}
+
       {paths ? (
         <SectionPaths
           position={paths.position}
@@ -88,7 +109,6 @@ export function Section({
         />
       ) : null}
 
-      {/* --z-local. Lifts content clear of the absolutely-positioned backdrop. */}
       <div className="relative z-10">{children}</div>
     </section>
   );
