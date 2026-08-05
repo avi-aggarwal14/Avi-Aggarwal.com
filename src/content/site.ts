@@ -45,7 +45,10 @@ export const site = {
     contact: {
       label: 'Contact me',
       href: 'mailto:hello@example.com',
-      title: 'Email me',
+      // Explicit break: the narrow tile wraps this anyway, and an explicit
+      // two-line title keeps the line count IDENTICAL through the
+      // hover-expand (§12: no line-break change during the transition).
+      title: 'Email\nme',
       sub: 'Usually the fastest route.',
     },
   },
