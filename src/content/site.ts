@@ -207,6 +207,34 @@ export const site = {
     ] satisfies Capability[],
   },
 
+  /* --- Process ------------------------------------------------------------
+     The scroll-driven card stack. Four to five steps is right — each card
+     holds the screen for a beat, so more than five makes the section a slog.
+     Keep bodies to 20-35 words. */
+  process: {
+    eyebrow: "Process",
+    heading: "How the work happens",
+    note: "Scroll to deal",
+    steps: [
+      {
+        step: "Placeholder step one",
+        body: "A sentence or two about what happens first. Say what you actually do, not what the phase is called in a textbook.",
+      },
+      {
+        step: "Placeholder step two",
+        body: "The second beat. Each card holds the screen on its own, so a vague line has nowhere to hide here.",
+      },
+      {
+        step: "Placeholder step three",
+        body: "The third. Concrete verbs land far harder than process nouns when a reader is giving you their full attention.",
+      },
+      {
+        step: "Placeholder step four",
+        body: "The last beat — where things land, ship, or get handed over. End on the outcome rather than the activity.",
+      },
+    ],
+  },
+
   /* --- Gallery ------------------------------------------------------------
      The drag carousel between Capabilities and Timeline. Frames can be
      process shots, details, stills — texture rather than argument. Replace
