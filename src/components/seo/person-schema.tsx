@@ -30,6 +30,12 @@ export function PersonSchema() {
   return (
     <script
       type="application/ld+json"
+      // `async` is required, not cosmetic. React 19 refuses to render a sync
+      // or deferred <script> outside the document head — "Cannot render a sync
+      // or defer <script> outside the main document without knowing its
+      // order." Marking it async lets React hoist it safely, and script
+      // ordering is meaningless for a JSON-LD payload that executes nothing.
+      async
       // The payload is built entirely from local content — no user input.
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
