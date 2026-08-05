@@ -256,7 +256,9 @@ body {
 .grain::after {
   content: "";
   position: fixed;
-  inset: -50%;
+  /* inset: 0, not -50% — the tile repeats, so oversizing the layer only
+     quadrupled its compositor memory for nothing. */
+  inset: 0;
   z-index: 60;
   pointer-events: none;
   opacity: 0.035;
