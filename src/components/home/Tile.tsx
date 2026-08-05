@@ -55,10 +55,17 @@ export function Tile({
       )}
     >
       {image && (
+        /* `unoptimized`: the tiles are hand-encoded AVIF at final size, so the
+           optimizer adds only a resize — and its AVIF→AVIF re-encode HANGS
+           indefinitely on this Next build (verified: /_next/image with
+           `Accept: image/avif` never responds; curl without that header
+           returns 200, which is why it looked fine from the terminal).
+           Serving the committed file directly is faster and cannot hang. */
         <Image
           src={image}
           alt=""
           fill
+          unoptimized
           preload={preloadImage}
           sizes="(max-width: 900px) 100vw, 40vw"
           className="-z-10 object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.035]"
